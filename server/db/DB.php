@@ -13,9 +13,14 @@ class DB
 {
     private $pdo;
 
-    /*
-    * Constructor de la clase DB.
-    */
+    /**
+     * Constructor de la clase DB.
+     * @param string $host Nombre del host
+     * @param string $databaseName Nombre de la base de datos
+     * @param string $user Nombre de usuario
+     * @param string $password Contraseña
+     * @throws Exception
+     */
 
     public function __construct()
     {
@@ -36,35 +41,37 @@ class DB
     }
 
 
-    /*
-    * Obtén la instancia de PDO para interactuar con la base de datos
-    * @return PDO
-    */
+    /**
+     * Obtén la instancia de PDO para interactuar con la base de datos y realizar consultas.
+     * @return PDO
+     */
     public function getPDO()
     {
         return $this->pdo;
     }
 
 
-    /*
-    * Cierra la conexión con la base de datos
-    */
+    /**
+     * Cierra la conexión con la base de datos
+     * @return void
+     */
     public function cierroBD()
     {
         $this->pdo = null;
     }
 
-    /*
-    *Funcion booleana para verificar la conexion con la base de datos
-    * @return boolean
-    * @throws Exception
-    */
+    /**
+     * Verifica si la conexión con la base de datos está activa.
+     * @return boolean
+     * @throws Exception
+     */
     public function verificarConexion()
     {
         try {
             $this->getPDO();
             return true;
         } catch (Exception $e) {
+
             return false;
         }
     }
