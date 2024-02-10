@@ -26,35 +26,18 @@ html {
   margin: 0;
   box-sizing: border-box;
 }
-.page-error {
-  background-image: url(../images/header-2.jpg);
+
+.main_container {
+  background-image: url(../images/plane_moon.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 100vh;
   width: 100%;
   margin: 0;
-  color: #fff;
-  font-size: 2rem;
-}
-
-.main_container {
-  /* background-image: url(../);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100%;
-  margin: 0;
-  margin-left: 8rem;
 }
 .main-container__content {
   position: relative;
@@ -66,35 +49,10 @@ html {
   /*fondo oscuro semitransparente */
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  border: #deaa86 1px solid;
-  margin-top: 0;
+  border: #0961b4 1px solid;
+  margin-top: 0.5rem;
 }
-.main-container__page2 {
-  background-image: url(../images/);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  margin: 0;
-  padding: 1rem;
-}
-.main-container__page3 {
-  background-image: url(../images/);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  margin: 0;
-  padding: 1rem;
-}
+
 .main-container__content__title {
   width: 100%;
   text-align: center;
@@ -118,7 +76,7 @@ html {
   background-clip: text;
   animation: textclip 10s linear infinite; /* Animación llamada 'textclip' con duración de 3.2 segundos, lineal e infinita */
   display: inline-block;
-  font-size: 3rem;
+  font-size: 1.5rem;
   font-family: Cursive;
 }
 .animate-character--mod {
@@ -131,7 +89,7 @@ html {
   );
 }
 .text {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-family: Cursive;
   color: #555;
   text-transform: uppercase;
@@ -166,11 +124,11 @@ html {
   border-radius: 8px;
   color: #fff;
   display: flex;
-  font-size: 1.5rem;
+  font-size: 1rem;
   padding: 3px;
   cursor: pointer;
   transition: 0.3s;
-  margin: 2rem auto;
+  margin: 0.3rem auto;
 }
 .btn-salir {
   position: absolute;
@@ -208,7 +166,7 @@ html {
 }
 .btn-entrar span {
   background-color: #111;
-  padding: 0.9rem 1.2rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 6px;
   transition: 0.3s;
 }
@@ -229,7 +187,7 @@ html {
 .btn-entrar:hover span {
   background: none;
   color: black;
-  font-size: 1.7rem;
+  font-size: 1.2rem;
 }
 .btn-salir:hover span {
   background: none;
@@ -261,8 +219,8 @@ html {
 .form-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: end;
   width: 50%;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
@@ -283,7 +241,6 @@ html {
   margin: 0.5rem auto;
   width: 100%;
   height: 3rem;
-  font-size: 1.5rem;
   transition: background 0.5s, border-bottom 0.5s, color 0.5s, font-weight 0.5s,
     font-size 0.5s;
 }
@@ -305,16 +262,16 @@ html {
   border-bottom: white 2px solid;
   color: white;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   transition: background 0.5s, border-bottom 0.5s, color 0.5s, font-weight 0.5s,
     font-size 0.5s;
 }
 .form-container input::placeholder {
-  color: #d37f43;
+  color: #33687c;
   font-weight: bold;
 }
 .form-container input:hover::placeholder {
-  color: white;
+  color: black;
   border: none;
 }
 .form-container input:focus {
@@ -322,7 +279,7 @@ html {
 }
 form label {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 

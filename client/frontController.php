@@ -1,7 +1,8 @@
 <?php
-include_once('./db/DB.php');
-include_once('./models/UserModel.php');
-
+include_once __DIR__ . '/views/UserView.php';
+include_once __DIR__ . '/controllers/UserController.php';
+include_once __DIR__ . '/views/VuelosView.php';
+include_once __DIR__ . '/controllers/VuelosController.php';
 
 // Define la acción por defecto
 define('ACCION_DEFECTO', 'mostrarInicio'); //listar es la acción por defecto que es la funcion mostrarLogin de LoginController
@@ -44,7 +45,8 @@ function cargarControlador($nombreControlador)
     } else {
         // Si el controlador no existe, se lanza una excepción
         //O añadir una página indicando el error del controlador
-        header("Location: ./views/errorView.php");
+        echo "Error: Controlador no encontrado";
+        //header("Location: ./views/errorView.php");
     }
 }
 
