@@ -1,6 +1,7 @@
 <?php
 include_once("./views/VuelosView.php");
 
+
 /**
  * Controlador de la página de vuelos.
  * @class VuelosController
@@ -20,10 +21,17 @@ class VuelosController
     }
 
     /**
-     * Muestra la página de inicio.
+     * Muestra la página de inicio de vuelos.
      */
     public function inicioVuelos()
     {
-        $this->vuelosView->inicioVuelos();
+        if (isset($_SESSION) && isset($_SESSION['nombre'])) {
+            $fechaUltVisita = date('Y-m-d H:i:s');
+            setcookie('ultima_visita', $fechaUltVisita, time() + 7 * 24 * 60 * 60, '/'); //valida por 7 dias
+
+            $this->vuelosView->inicioVuelos();
+        } else {
+            header('Location: index.php?controller=User&action=mostrarInicio');
+        }
     }
 }

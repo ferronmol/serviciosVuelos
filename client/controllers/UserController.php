@@ -38,9 +38,13 @@ class UserController
             if (isset($_POST['nombre']) && isset($_POST['contraseña'])) {
                 $nombre = $_POST['nombre'];
                 // Inicia la sesión
-                session_start();
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
                 // Guarda el nombre de usuario en la sesión
                 $_SESSION['nombre'] = $nombre;
+                // var_dump($_SESSION['nombre']); ok
+
                 // Redirige a la página de vuelos
                 header('Location: index.php?controller=Vuelos&action=inicioVuelos');
                 exit();
