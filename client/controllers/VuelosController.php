@@ -4,7 +4,6 @@ include_once('./views/InfoView.php');
 include_once("./services/VuelosService.php");
 include_once("./services/PasajesService.php");
 
-
 /**
  * Controlador de la página de vuelos.
  * @class VuelosController
@@ -43,24 +42,27 @@ class VuelosController
             header('Location: index.php?controller=User&action=mostrarInicio');
         }
     }
-
+    /**
+     * Pide al servidor la información de todos los vuelos.
+     */
     public function AllFlights()
     {
-        //recibo el get recogido por VuelosService
-        $resultado = $this->vuelosService->request();
-        var_dump($resultado);
-        echo "<script>console.log(" . json_encode($resultado) . ");</script>";
+
+        $this->vuelosService->request();
 
         //se lo mandamos a la vista
-        $this->InfoView->AllFlights($resultado);
+        // $this->InfoView->AllFlights();
     }
-
+    /**
+     * Solicita a la vista que muestre el formulario de búsqueda de vuelos.
+     */
     public function FlightBooking()
     {
-        //mando a abrir un formulario para insertar pasaje a un vuelo
         $this->InfoView->FlightBooking();
     }
-
+    /**
+     * Recibe el formulario de búsqueda de vuelos.
+     */
     public function recibirFormularioBooking()
     {
         $pasaje = array();
@@ -79,17 +81,29 @@ class VuelosController
             print_r($resultado);
         }
     }
+    /**
+     * Pide a la vista que muestre el formulario para pedir el identificador de UN vuelo.
+     */
     public function mostrarVuelo()
     {
-        //mando a abrir un formulario para pedir el identificador  de un vuelo concreto
+
         $this->InfoView->formularioVuelos();
     }
-    public function obtenerInfoVuelo($identificador)
+
+    /**
+     * Obtiene la información de un vuelo concreto.
+     */
+    public function obtenerInfoVuelo()
     {
+        if (isset($_POST['identificador'])) {
+            $identificador = $_POST['identificador'];
+        }
+        //var_dump($identificador); //ok
+
         // Envía el identificador al servicio para procesar la información del vuelo
-        $resultado = $this->vuelosService->obtenerInfoVuelo($identificador);
+        $this->vuelosService->obtenerInfoVuelo($identificador);
 
         // Muestra el resultado en la vista correspondiente
-        $this->InfoView->mostrarInfoVuelo($resultado);
+        $this->InfoView->mostrarInfoVuelo();
     }
 }

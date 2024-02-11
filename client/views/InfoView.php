@@ -10,7 +10,7 @@ class InfoView
      * Muestra la información de los vuelos.
      * @param string $mensajeError Mensaje de error a mostrar (opcional).
      */
-    public function AllFlights($resultado)
+    public function AllFlights()
     {
 
 ?>
@@ -63,7 +63,7 @@ class InfoView
      */
     public function FlightBooking()
     {
-        // Genera el formulario y le pongo un name a cada input para poder recuperar los datos modificados
+
     ?>
         <h5 class="animate-character mt-5">Create Booking</h5>
         <div class="form-container form">
@@ -101,9 +101,13 @@ class InfoView
 
     <?php
     }
+    /**
+     * Metodo que muestra el formulario para pedir el identificador de un vuelo
+     * 
+     */
     public function formularioVuelos()
     {
-        // Genera el formulario y le pongo un name a cada input para poder recuperar los datos modificados
+
     ?>
         <h5 class="animate-character mt-5">Info Flight</h5>
         <div class="form-container">
@@ -119,7 +123,11 @@ class InfoView
         </div>
 <?php
     }
-    public function mostrarInfoVuelo($resultado)
+    /**
+     * Metodo que muestra la informacion del vuelo
+     * 
+     */
+    public function mostrarInfoVuelo()
     {
         // Muestra la información del vuelo
         if (!empty($resultado)) {

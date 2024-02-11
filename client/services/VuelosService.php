@@ -1,15 +1,14 @@
 <?php
-
-
-//vamos a pedirle al servidor qeu nos mande por get todos los vuelos usando curl
-//y lo vamos a mostrar en la vista
 class VuelosService
 {
+    /**
+     * Metodo que pide al servidor la información de todos los vuelos
+     */
 
-    function request()
+    public function request()
     {
         echo "request";
-        $urlmiservicio = "http://localhost:3000/server/vuelos.php";
+        $urlmiservicio = "http://localhost:3000/server/Vuelos.php";
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
@@ -20,18 +19,23 @@ class VuelosService
         //para recibir una respuesta
         curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($conexion);
-        echo $res;
-        if ($res === false) {
-            echo "Error cURL: " . curl_error($conexion);
+        if ($res) {
+            echo "<br>Salida request_curl<br>";
+            print_r($res);
         }
         curl_close($conexion);
-        return json_decode($res, true);
     }
 
-
+    /**
+     * Metodo que pide al servidor la información de un vuelo concreto
+     * @param $identificador identificador del vuelo
+     */
     public function obtenerInfoVuelo($identificador)
     {
-        $urlmiservicio = "http://localhost:3000/server/vuelos.php";
+        var_dump($identificador);
+        //codificamos el identificador para que no de problemas en la url
+        $identificadorCod = urlencode($identificador);
+        $urlmiservicio = "http://localhost:3000/server/Vuelos.php/?identificador=" . $identificadorCod;
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
@@ -42,17 +46,10 @@ class VuelosService
         //para recibir una respuesta
         curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($conexion);
-        if ($res === false) {
-            echo "Error cURL: " . curl_error($conexion);
+        if ($res) {
+            echo "<br>Salida request_curl<br>";
+            print_r($res);
         }
         curl_close($conexion);
-        $vuelos = json_decode($res, true);
-        $vuelo = array();
-        foreach ($vuelos as $v) {
-            if ($v['identificador'] == $identificador) {
-                $vuelo = $v;
-            }
-        }
-        return $vuelo;
     }
 }
