@@ -1,11 +1,14 @@
 <?php
-require_once 'models/vuelosModel.php';
+require_once("./models/VuelosModel.php");
 header("Content-Type: application/json");
-// si recibo una peticion de tipo get
+
+
+// si recibo una peticion de tipo GET
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // si recibo un id
+    // si recibo un identificador
     if (isset($_GET['identificador'])) {
-        // obtengo el id
+        // obtengo el identificador
         $identificador = $_GET['identificador'];
         // creo una instancia de VuelosModel
         $vuelosModel = new VuelosModel(new DB());
@@ -17,14 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(404);
             echo json_encode(['error' => 'El vuelo no existe']);
         } else {
-            // devuelvo el vuelo
+            // devuelvo el vuelo en formato json
             echo json_encode($vuelo);
+            exit();
         }
     } else {
         //obtengo todos los vuelos
         $vuelosModel = new VuelosModel(new DB());
         $vuelos = $vuelosModel->getAllVuelos();
-        // devuelvo los vuelos
+        //var_dump($vuelos);
+        // devuelvo los vuelos en formato json
         echo json_encode($vuelos);
+        exit();
     }
 }

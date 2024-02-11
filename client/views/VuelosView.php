@@ -27,6 +27,9 @@ class VuelosView
                 } else {
                     echo '<p class="text text--min">Usuario no autenticado</p>';
                 }
+                if (isset($_COOKIE['ultima_visita'])) {
+                    echo '<p class="text text--min">Última visita: ' . $_COOKIE['ultima_visita'] . '</p>';
+                }
                 ?>
             </div>
         </div>
@@ -47,9 +50,9 @@ class VuelosView
                 <h1 class="black-text">Flight Information</h1>
             </div>
             <div class="main-container__content__btn">
-                <a href="index.php?controller=Vuelos&action=mostrarVuelos" class="btn-flight">All Flights</a>
-                <a href="index.php?controller=Vuelos&action=mostrarVuelos" class="btn-flight">Flight number</a>
-                <a href="index.php?controller=Vuelos&action=mostrarVuelos" class="btn-flight">Tickets</a>
+                <a href="index.php?controller=Vuelos&action=AllFlights" class="btn-flight">All Flights</a>
+                <a href="index.php?controller=Vuelos&action=mostrarVuelo" class="btn-flight">Flight number</a>
+                <a href="index.php?controller=Vuelos&action=FlightBooking" class="btn-flight">Tickets</a>
                 <a href="index.php?controller=Vuelos&action=mostrarVuelos" class="btn-flight">I want to fly</a>
             </div>
         </div>

@@ -59,13 +59,14 @@ html {
 }
 .animate-character {
   text-transform: uppercase;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     -225deg,
     #b3c8e7 0%,
     #8ed9cc 29%,
     #f4adc6 67%,
-    #f9f595 100%
+    #f9f595 100% 
   ); /* Fondo con gradiente */
+  background-image: var(--mi-gradiant3);
   background-size: auto auto; /* Tamaño del fondo */
   background-clip: border-box; /* Define cómo se muestra el fondo en relación con el contenido y el relleno del elemento */
   background-size: 30% auto; /* Tamaño del fondo (repetición) */
@@ -299,7 +300,8 @@ a {
 .form {
   width: 50%;
 }
-.input:hover {
+.input:hover,
+.input:focus {
   background: transparent;
   border: none;
   color: white;
@@ -309,7 +311,8 @@ a {
   background-color: rgba(0, 0, 0, 0.3);
   transition: background 0.5s;
 }
-.form-container input:hover {
+
+.form-container input[type="submit"] {
   background: transparent;
   border-bottom: white 2px solid;
   color: white;
@@ -319,13 +322,15 @@ a {
     font-size 0.5s;
 }
 .form-container input::placeholder {
-  color: #33687c;
-  font-weight: bold;
-}
-.form-container input:hover::placeholder {
   color: black;
-  border: none;
+  transition: color 0.5s;
 }
+.form-container input:hover::placeholder,
+.form-container input:focus::placeholder {
+  color: transparent;
+  transition: color 0.5s;
+}
+
 .form-container input:focus {
   outline: none;
 }
@@ -448,4 +453,7 @@ form label {
   border-radius: 6px;
   padding: 0.5rem;
   margin: 1.5rem;
+}
+.center {
+  text-align: center;
 }

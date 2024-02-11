@@ -1,6 +1,5 @@
 <?php
 include_once("./views/UserView.php");
-
 class UserController
 {
     private $userView; //objeto de la clase Login_formview
@@ -44,7 +43,10 @@ class UserController
                 // Guarda el nombre de usuario en la sesión
                 $_SESSION['nombre'] = $nombre;
                 // var_dump($_SESSION['nombre']); ok
-
+                if (isset($_COOKIE['ultima_visita'])) {
+                    $fechaUltVisita = date('Y-m-d H:i:s');
+                    setcookie('ultima_visita', $fechaUltVisita, time() + 7 * 24 * 60 * 60, '/'); //valida por 7 dias
+                }
                 // Redirige a la página de vuelos
                 header('Location: index.php?controller=Vuelos&action=inicioVuelos');
                 exit();
@@ -63,9 +65,13 @@ class UserController
      */
     public function cerrarSesion()
     {
-        //informo al logcontroler usando logOut
+
+        //vaciamos la sesion
+        $_SESSION = array();
         //borro la sesion
         session_destroy();
+        //borro la cookie
+        // setcookie('ultima_visita', '', time() - 3600, '/');
         //vuelvo al index
         header('Location: index.php?controller=User&action=mostrarInicio');
         exit();

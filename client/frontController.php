@@ -3,6 +3,9 @@ include_once __DIR__ . '/views/UserView.php';
 include_once __DIR__ . '/controllers/UserController.php';
 include_once __DIR__ . '/views/VuelosView.php';
 include_once __DIR__ . '/controllers/VuelosController.php';
+include_once __DIR__ . '/services/VuelosService.php';
+include_once __DIR__ . '/services/PasajesService.php';
+include_once __DIR__ . '/views/InfoView.php';
 
 // Define la acción por defecto
 define('ACCION_DEFECTO', 'mostrarInicio'); //listar es la acción por defecto que es la funcion mostrarLogin de LoginController
