@@ -48,6 +48,8 @@ class VuelosController
     {
         //recibo el get recogido por VuelosService
         $resultado = $this->vuelosService->request();
+        var_dump($resultado);
+        echo "<script>console.log(" . json_encode($resultado) . ");</script>";
 
         //se lo mandamos a la vista
         $this->InfoView->AllFlights($resultado);
@@ -76,5 +78,18 @@ class VuelosController
             //mostramos el resultado
             print_r($resultado);
         }
+    }
+    public function mostrarVuelo()
+    {
+        //mando a abrir un formulario para pedir el identificador  de un vuelo concreto
+        $this->InfoView->formularioVuelos();
+    }
+    public function obtenerInfoVuelo($identificador)
+    {
+        // Envía el identificador al servicio para procesar la información del vuelo
+        $resultado = $this->vuelosService->obtenerInfoVuelo($identificador);
+
+        // Muestra el resultado en la vista correspondiente
+        $this->InfoView->mostrarInfoVuelo($resultado);
     }
 }

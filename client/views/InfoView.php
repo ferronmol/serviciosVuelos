@@ -99,6 +99,42 @@ class InfoView
             <a href="index.php?controller=Vuelos&action=inicioVuelos" class="btn btn-primary">Back</a>
         </div>
 
+    <?php
+    }
+    public function formularioVuelos()
+    {
+        // Genera el formulario y le pongo un name a cada input para poder recuperar los datos modificados
+    ?>
+        <h5 class="animate-character mt-5">Info Flight</h5>
+        <div class="form-container">
+            <form class="form" action="index.php?controller=Vuelos&action=obtenerInfoVuelo" method="post">
+                <div class="form-group
+}
+                <label for=" identificador">Booking Code</label>
+                    <input type="text" required name="identificador" class="form-control" id="identificador" placeholder="AVI-345" value="">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+            <a href="index.php?controller=Vuelos&action=inicioVuelos" class="btn btn-primary">Back</a>
+        </div>
 <?php
     }
+    public function mostrarInfoVuelo($resultado)
+    {
+        // Muestra la información del vuelo
+        if (!empty($resultado)) {
+            echo "<h1>Información del vuelo</h1>";
+            echo "<p>Identificador: " . $resultado['identificador'] . "</p>";
+            echo "<p>Origen: " . $resultado['origen'] . "</p>";
+            echo "<p>Destino: " . $resultado['destino'] . "</p>";
+            echo "<p>Fecha de salida: " . $resultado['fechasalida'] . "</p>";
+            echo "<p>Fecha de llegada: " . $resultado['fechallegada'] . "</p>";
+            echo "<p>Numero de pasajeros: " . $resultado['numpasajeros'] . "</p>";
+            echo "<p>Clase: " . $resultado['clase'] . "</p>";
+            echo "<p>Precio: " . $resultado['pvp'] . "</p>";
+        } else {
+            echo "<h1>No se ha encontrado el vuelo</h1>";
+        }
+    }
 }
+?>
