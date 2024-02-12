@@ -5,12 +5,12 @@
  * @class VuelosController
  * @brief Controlador de la página de vuelos.
  */
-class VueloController
+class FlightController
 {
-    private $vueloView; //objeto de la clase Login_formview
-    private $InfoView; //objeto de la clase InfoView
-    private $vueloService; //objeto de la clase VuelosService
-    private $pasajeService; //objeto de la clase PasajesService
+    private $flightView; //objeto de la clase Login_formview
+    private $formView; //objeto de la clase InfoView
+    private $flightService; //objeto de la clase VuelosService
+    private $bookingService; //objeto de la clase PasajesService
 
     /**
      * Constructor de la clase VuelosController.
@@ -18,22 +18,22 @@ class VueloController
      */
     public function __construct()
     {
-        $this->vueloView = new VueloView();  //crea un objeto de la clase Login_formview
-        $this->InfoView = new InfoView();  //crea un objeto de la clase InfoView
-        $this->vueloService = new VueloService();  //crea un objeto de la clase VuelosService
-        $this->pasajeService = new PasajeService();  //crea un objeto de la clase PasajesServices
+        $this->flightView = new FlightView();  //crea un objeto de la clase Login_formview
+        $this->formView = new FormView();  //crea un objeto de la clase InfoView
+        $this->flightService = new FlightService();  //crea un objeto de la clase VuelosServices
+        $this->bookingService = new BookingService();  //crea un objeto de la clase PasajesServices
     }
 
     /**
      * Muestra la página de inicio de vuelos.
      */
-    public function inicioVuelos()
+    public function initFlight()
     {
         if (isset($_SESSION['nombre'])) {
             $fechaUltVisita = date('Y-m-d H:i:s');
             setcookie('ultima_visita', $fechaUltVisita, time() + 7 * 24 * 60 * 60, '/'); //valida por 7 dias
 
-            $this->vueloView->inicioVuelos();
+            $this->flightView->initFlights();
         } else {
             header('Location: index.php?controller=User&action=mostrarInicio');
         }
@@ -44,10 +44,10 @@ class VueloController
     public function AllFlights()
     {
 
-        $Vuelos = json_decode($this->vueloService->request(), true);
+        $Vuelos = json_decode($this->flightService->request(), true);
         // var_dump($Vuelos);
 
-        $this->InfoView->AllFlights($Vuelos);
+        $this->flightView->AllFlights($Vuelos);
     }
 
     /**
@@ -56,7 +56,7 @@ class VueloController
     public function FlightId()
     {
 
-        $this->InfoView->formFlightId();
+        $this->formView->formFlightId();
     }
 
     /**
@@ -71,9 +71,9 @@ class VueloController
         //var_dump($identificador); //ok
 
         // Envía el identificador al servicio para procesar la información del vuelo
-        $res = $this->vueloService->requestFlightId($identificador);
+        $res = $this->flightService->requestFlightId($identificador);
 
         // Muestra el resultado en la vista correspondiente
-        $this->InfoView->showFlightId($res);
+        $this->flightView->showFlightId($res);
     }
 }

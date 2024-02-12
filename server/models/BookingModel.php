@@ -7,7 +7,7 @@ require_once __DIR__ . '/../db/DB.php';
  * Clase Pasaje: Representa un pasaje de la aplicación.
  
  */
-class Pasaje
+class Booking
 {
     private $idpasaje;
     private $pasajerocod;
@@ -67,7 +67,7 @@ class Pasaje
  * @param DB $db Instancia de la clase DB
  */
 
-class PasajeModel
+class BookingModel
 {
     private $db;
 
@@ -111,7 +111,7 @@ class PasajeModel
      * @param string $identificador Código del vuelo
      * @return bool true si el pasajero ya existe, false en caso contrario
      */
-    public function verificarPasajeroExistente($pasajeroCod, $identificador)
+    public function checkExistingPassenger($pasajeroCod, $identificador)
     {
         try {
             // Obtener la conexión PDO
@@ -136,7 +136,7 @@ class PasajeModel
      * @param string $identificador Código del vuelo
      * @return bool true si el asiento está ocupado, false en caso contrario
      */
-    public function verificarAsientoOcupado($numAsiento, $identificador)
+    public function checkOccupiedSeat($numAsiento, $identificador)
     {
         try {
             // Obtener la conexión PDO
@@ -159,15 +159,15 @@ class PasajeModel
      * @param Pasaje $pasaje Objeto Pasaje a insertar
      * @return string Mensaje indicando el resultado de la operación
      */
-    public function insertarPasaje($pasaje)
+    public function insertBooking($pasaje)
     {
         try {
             // Obtener la conexión PDO
             $pdo = $this->db->getPDO();
 
             // Realizar las comprobaciones antes de insertar
-            $pasajeroExistente = $this->verificarPasajeroExistente($pasaje->getPasajerocod(), $pasaje->getIdentificador());
-            $asientoOcupado = $this->verificarAsientoOcupado($pasaje->getNumasiento(), $pasaje->getIdentificador());
+            $pasajeroExistente = $this->checkExistingPassenger($pasaje->getPasajerocod(), $pasaje->getIdentificador());
+            $asientoOcupado = $this->checkOccupiedSeat($pasaje->getNumasiento(), $pasaje->getIdentificador());
 
             // Si el pasajero o el asiento ya existen, devolver mensaje de error específico
             if ($pasajeroExistente && $asientoOcupado) {

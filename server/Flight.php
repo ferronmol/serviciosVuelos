@@ -1,5 +1,5 @@
 <?php
-require_once("./models/VuelosModel.php");
+require_once("./models/FlightModel.php");
 header("Content-Type: application/json");
 
 
@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // obtengo el identificador
         $identificador = $_GET['identificador'];
         // creo una instancia de VuelosModel
-        $vuelosModel = new VuelosModel(new DB());
+        $vuelosModel = new FlightModel(new DB());
         // obtengo todo lo de un vuelo con el indentificador
-        $vuelo  = $vuelosModel->getAllVuelos($identificador);
+        $vuelo  = $vuelosModel->getAllFlights($identificador);
         // si el vuelo no existe
         if ($vuelo == null) {
             // devuelvo un error
@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     } else {
         //obtengo todos los vuelos
-        $vuelosModel = new VuelosModel(new DB());
-        $vuelos = $vuelosModel->getAllVuelos();
+        $vuelosModel = new FlightModel(new DB());
+        $vuelos = $vuelosModel->getAllFlights();
         //var_dump($vuelos);
         // devuelvo los vuelos en formato json
         echo json_encode($vuelos);

@@ -1,5 +1,5 @@
 <?php
-require_once("./models/PasajeModel.php");
+require_once("./models/BookingModel.php");
 header("Content-Type: application/json");
 
 /**
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Crear un objeto Pasaje con los datos recibidos
-    $pasaje = new Pasaje(
+    $pasaje = new Booking(
         null,
         $data['pasajerocod'],
         $data['identificador'],
@@ -36,10 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     // Crear una instancia de PasajeModel
-    $pasajeModel = new PasajeModel(new DB());
+    $pasajeModel = new BookingModel(new DB());
 
     // Insertar el pasaje y obtener el mensaje de resultado
-    $resultado = $pasajeModel->insertarPasaje($pasaje);
+    $resultado = $pasajeModel->insertBooking($pasaje);
 
     // Devolver el resultado como respuesta
     echo $resultado;

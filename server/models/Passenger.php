@@ -6,7 +6,7 @@ require_once __DIR__ . '/../db/DB.php';
  * *********************USUARIOS**********************************************
  * Clase Pasajero: Representa un pasajero de la aplicación.
  */
-class Pasajero
+class Passenger
 {
     private $pasajerocod;
     private $nombre;
@@ -58,7 +58,7 @@ class Pasajero
  * @param DB $db Instancia de la clase DB
  */
 
-class PasajeroModel
+class PassengerModel
 {
     private $db;
 
@@ -110,7 +110,7 @@ class PasajeroModel
      * @return array $pasajeros Array de objetos Pasajero
      * @throws Exception Si no se puede conectar con la base de datos salta una excepción
      */
-    public function getAllPasajeros()
+    public function getAllPassenger()
     {
         try {
             $sql = "SELECT * FROM pasajeros";
@@ -118,7 +118,7 @@ class PasajeroModel
             $pasajeros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $arrayPasajeros = [];
             foreach ($pasajeros as $pasajero) {
-                $arrayPasajeros[] = new Pasajero($pasajero['pasajerocod'], $pasajero['nombre'], $pasajero['tlf'], $pasajero['direccion'], $pasajero['pais']);
+                $arrayPasajeros[] = new Passenger($pasajero['pasajerocod'], $pasajero['nombre'], $pasajero['tlf'], $pasajero['direccion'], $pasajero['pais']);
             }
             return $arrayPasajeros;
         } catch (PDOException $ex) {
@@ -136,14 +136,14 @@ class PasajeroModel
      * @throws Exception Si no se puede conectar con la base de datos salta una excepción
      */
 
-    public function getPasajero($pasajerocod)
+    public function getPassenger($pasajerocod)
     {
         try {
             $sql = "SELECT * FROM pasajeros WHERE pasajerocod = :pasajerocod";
             $stmt = $this->db->getPDO()->prepare($sql);
             $stmt->execute(['pasajerocod' => $pasajerocod]);
             $pasajero = $stmt->fetch(PDO::FETCH_ASSOC);
-            return new Pasajero($pasajero['pasajerocod'], $pasajero['nombre'], $pasajero['tlf'], $pasajero['direccion'], $pasajero['pais']);
+            return new Passenger($pasajero['pasajerocod'], $pasajero['nombre'], $pasajero['tlf'], $pasajero['direccion'], $pasajero['pais']);
         } catch (PDOException $ex) {
             throw new RuntimeException('Error al obtener el pasajero de la base de datos');
             return null;

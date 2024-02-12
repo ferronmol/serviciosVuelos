@@ -17,19 +17,19 @@ class UserController
      */
     public function mostrarInicio()
     {
-        $this->userView->mostrarInicio();
+        $this->userView->showInit();
     }
 
     /**
      * Muestra el formulario de inicio de sesión.
      */
-    public function mostrarFormulario()
+    public function showForm()
     {
-        $this->userView->mostrarFormulario();
+        $this->userView->showForm();
     }
 
 
-    public function procesarFormulario()
+    public function processForm()
     {
         // Comprueba si se ha enviado el formulario
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -48,12 +48,12 @@ class UserController
                     setcookie('ultima_visita', $fechaUltVisita, time() + 7 * 24 * 60 * 60, '/'); //valida por 7 dias
                 }
                 // Redirige a la página de vuelos
-                header('Location: index.php?controller=Vuelo&action=inicioVuelos');
+                header('Location: index.php?controller=Flight&action=initFlight');
                 exit();
             } else {
                 // Muestra un mensaje de error
                 $mensajeError = 'Usuario o contraseña noo pueden esatr vacios. Inténtelo de nuevo.';
-                $this->userView->mostrarFormulario($mensajeError);
+                $this->userView->showForm($mensajeError);
             }
         }
     }
@@ -63,7 +63,7 @@ class UserController
     /**
      * Cierra la sesión del usuario, escribe en el log, destruye la sesión y redirige al índice.
      */
-    public function cerrarSesion()
+    public function closeSession()
     {
 
         //vaciamos la sesion

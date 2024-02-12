@@ -1,12 +1,13 @@
 <?php
-include_once __DIR__ . '/views/UserView.php';
-include_once __DIR__ . '/views/VueloView.php';
 include_once __DIR__ . '/controllers/UserController.php';
-include_once __DIR__ . '/controllers/PasajeController.php';
-include_once __DIR__ . '/controllers/VueloController.php';
-include_once __DIR__ . '/services/VueloService.php';
-include_once __DIR__ . '/services/PasajeService.php';
-include_once __DIR__ . '/views/InfoView.php';
+include_once __DIR__ . '/controllers/BookingController.php';
+include_once __DIR__ . '/controllers/FlightController.php';
+include_once __DIR__ . '/services/FlightService.php';
+include_once __DIR__ . '/services/BookingService.php';
+include_once __DIR__ . '/views/UserView.php';
+include_once __DIR__ . '/views/FlightView.php';
+include_once __DIR__ . '/views/FormView.php';
+include_once __DIR__ . '/views/BookingView.php';
 
 // Define la acción por defecto
 define('ACCION_DEFECTO', 'mostrarInicio'); //listar es la acción por defecto que es la funcion mostrarLogin de LoginController

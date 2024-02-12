@@ -1,5 +1,5 @@
 <?php
-class VueloService
+class FlightService
 {
     /**
      * Metodo que pide al servidor la información de todos los vuelos
@@ -8,7 +8,7 @@ class VueloService
 
     public function request()
     {
-        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php";
+        $urlmiservicio = "http://localhost/serviciosVuelos/server/Flight.php";
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
@@ -48,7 +48,7 @@ class VueloService
     {
         //var_dump($identificador);
         //codificamos el identificador para que no de problemas en la url
-        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php?identificador=" . $identificador;
+        $urlmiservicio = "http://localhost/serviciosVuelos/server/Flight.php?identificador=" . $identificador;
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);

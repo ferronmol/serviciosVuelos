@@ -12,7 +12,7 @@ require_once __DIR__ . '/../db/DB.php';
  * @param float $descuento Descuento del vuelo
  */
 
-class Vuelo
+class Flight
 {
     private $identificador;
     private $aeropuertoorigen;
@@ -32,7 +32,7 @@ class Vuelo
     }
 }
 
-class VuelosModel
+class FlightModel
 {
     private $db;
 
@@ -64,7 +64,7 @@ class VuelosModel
      * @throws Exception
      * 
      */
-    public function getVuelos($identificador = null)
+    public function getFlights($identificador = null)
     {
         try {
             $sql = "SELECT * FROM vuelos";
@@ -81,7 +81,7 @@ class VuelosModel
             $vuelos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $vuelosArray = array();
             foreach ($vuelos as $vuelo) {
-                $vuelosArray[] = new Vuelo($vuelo['identificador'], $vuelo['aeropuertoorigen'], $vuelo['aeropuertodestino'], $vuelo['tipovuelo'], $vuelo['fechavuelo'], $vuelo['descuento']);
+                $vuelosArray[] = new Flight($vuelo['identificador'], $vuelo['aeropuertoorigen'], $vuelo['aeropuertodestino'], $vuelo['tipovuelo'], $vuelo['fechavuelo'], $vuelo['descuento']);
             }
             return $vuelosArray;
         } catch (PDOException $e) {
@@ -93,7 +93,7 @@ class VuelosModel
      * @return array $allVuelos Array de objetos Vuelo ampliado
      * @throws Exception
      */
-    public function getAllVuelos($identificador = null)
+    public function getAllFlights($identificador = null)
     {
         try {
             $sql = "SELECT

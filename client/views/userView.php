@@ -2,21 +2,21 @@
 class UserView
 {
     /**
-     * Muestra la página de inicio.
+     * Muestra la página de inicio de la aplicación.
      */
-    public function mostrarInicio()
+    public function showInit()
     {
 ?>
-        <div class="main-container__content">;
-            <div class="main-container__content__title">;
+        <div class="main-container__content mt-3">
+            <div class="main-container__content__title">
                 <h1 class="animate-character">Ferron Airlines</h1>
             </div>
             <div class="main-container__content__subtitle">
                 <h2 class="text txt-white">Take off to the future</h2>
             </div>
             <div class="main-container__content__btn">
-                <form action="index.php?controller=User&action=mostrarFormulario" method="get">
-                    <input type="hidden" name="action" value="mostrarFormulario">
+                <form action="index.php?controller=User&action=showForm" method="get">
+                    <input type="hidden" name="action" value="showForm">
                     <button type="submit" class="btn-entrar" id="btn-entrar"><span>Entrar</span></button>
                 </form>
             </div>
@@ -24,10 +24,10 @@ class UserView
     <?php
     }
     /**
-     * Muestra el formulario de login.
-     * @param string $mensajeError Mensaje de error a mostrar (opcional).
+     * Muestra el formulario de login de acceso a la aplicación.
+     * 
      */
-    public function mostrarFormulario()
+    public function showForm()
     {
     ?>
         <div class="main-container__content">
@@ -35,7 +35,7 @@ class UserView
                 <h3 class="animate-character">ACCOUNT</h3>
             </div>
             <div class="form-container">
-                <form action="index.php?controller=User&action=procesarFormulario" method="post">
+                <form action="index.php?controller=User&action=processForm" method="post">
                     <div class="input-group">
                         <label for="nombre">Username</label>
                         <input type="text" name="nombre" id="nombre" placeholder="Enter username" required>

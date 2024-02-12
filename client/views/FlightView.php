@@ -1,22 +1,74 @@
 <?php
-include_once("./controllers/VueloController.php");
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
-class InfoView
+class FlightView
 {
     /**
-     * Muestra la información de los vuelos.
+     * Muestra la página de inicio.
      * @param string $mensajeError Mensaje de error a mostrar (opcional).
+     */
+    public function initFlights()
+    {
+?>
+        <div class="main-container__content">
+            <div class="checkout-container">
+                <a href="index.php?controller=User&action=closeSession" class="btn-salir"><span>Out Session</span></a>
+            </div>
+            <div class="main-container__content__title">
+                <h1 class="animate-character">Ferron Airlines</h1>
+            </div>
+            <div class="main-container__content__subtitle">
+                <h2 class="text txt-white">Take off to the future</h2>
+            </div>
+            <div class="main-container__content__btn">
+                <?php
+                if (isset($_SESSION) && isset($_SESSION['nombre'])) {
+                    echo '<p class="text text--min">User: ' . $_SESSION['nombre'] . '</p>';
+                } else {
+                    echo '<p class="text text--min">Usuario no autenticado</p>';
+                }
+                if (isset($_COOKIE['ultima_visita'])) {
+                    echo '<p class="text text--min">Última visita: ' . $_COOKIE['ultima_visita'] . '</p>';
+                }
+                ?>
+            </div>
+        </div>
+
+    <?php
+        // Llamada al segundo método
+        $this->showInfoFlights();
+    }
+
+    /**
+     * Muestra la información principal de la aplicación mediante botones.
+     */
+    public function showInfoFlights()
+    {
+    ?>
+        <div class="main-container__flight">
+            <div class="main-container__flight-title">
+                <h1 class="black-text">Flight Information</h1>
+            </div>
+            <div class="main-container__content__btn">
+                <a href="index.php?controller=Flight&action=AllFlights" class="btn-flight">All Flights</a>
+                <a href="index.php?controller=Flight&action=FlightId" class="btn-flight">Flight number</a>
+                <a href="index.php?controller=Booking&action=Bookings" class="btn-flight">Bookings</a>
+                <a href="index.php?controller=Flight&action=mostrarVuelos" class="btn-flight">I want to fly</a>
+            </div>
+        </div>
+    <?php
+    }
+    /**
+     * Muestra la información de TODOS LOS VUELOS
+     * @param Array $vuelos Array con la información de los vuelos.
      */
     public function AllFlights($vuelos)
     {
 
-?>
+    ?>
         <div class="main-container__content__table">
             <h1 class="black-text center">All Flights</h1>
-            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary mb-3 ">Back</a>
+            <a href="index.php?controller=Flight&action=initFlight" class="btn btn-primary mb-3 ">Back</a>
 
             <table class="table table-striped table-dark table-custom">
 
@@ -49,8 +101,8 @@ class InfoView
                             <td><?= $vuelo['País de destino'] ?></td>
                             <td><?= $vuelo['Tipo de vuelo'] ?></td>
                             <td><?= $vuelo['Número de pasajeros del vuelo'] ?></td>
-                            <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
-                            <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
+                            <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
+                            <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
                         </tr>
                     <?php
                     }
@@ -61,82 +113,8 @@ class InfoView
         </div>
     <?php
     }
-
     /**
-     * Metodo que muestra el formulario para insertar un pasaje
-     * 
-     */
-    public function FlightBooking()
-    {
-
-    ?>
-        <h5 class="animate-character mt-5">Create Booking</h5>
-        <div class="form-container form">
-            <?php
-            if (isset($_SESSION['message'])) {
-                echo "<div class='alert alert-light' role='alert'>" . $_SESSION['message'] . "</div>";
-                unset($_SESSION['message']);
-            }
-            ?>
-
-            <form class="form" action="index.php?controller=Pasaje&action=FormBooking" method="post">
-                <div class="form-group">
-                    <label for="pasajerocod">Passenguer Code</label>
-                    <input type="number" required name="pasajerocod" class="form-control" id="pasajerocod" placeholder="7" value="">
-                </div>
-                <div class="form-group">
-                    <label for="identificador">Booking Code</label>
-                    <input type="text" required name="identificador" class="form-control" id="identificador" placeholder="AVI-345" value="">
-                </div>
-                <div class="form-group">
-                    <label for="numasiento">Seat Number</label>
-                    <input type="number" required name="numasiento" class="form-control" id="numasiento" placeholder="10" value="">
-                </div>
-                <div class="form-group">
-                    <label for="clase">Class</label>
-                    <select name="clase" class="form-select" id="clase">
-                        <option value="primera">First Class</option>
-                        //opcion por defecto seleccionada
-                        <option value="turista" selected>Turist</option>
-                        <option value="negocios">Business</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="pvp">Price</label>
-                    <input type="number" name="pvp" class="form-control" id="pvp" placeholder="250" value="">
-                </div>
-
-                <button type="submit" class="btn btn-primary mt-2">Submit</button>
-            </form>
-            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary">Back</a>
-        </div>
-
-    <?php
-    }
-    /**
-     * Metodo que muestra el formulario para pedir el identificador de un vuelo
-     * 
-     */
-    public function formFlightId()
-    {
-
-    ?>
-        <h5 class="animate-character mt-5">Info Flight</h5>
-        <div class="form-container">
-            <form class="form" action="index.php?controller=Vuelo&action=requestFlight" method="post">
-                <div class="form-group
-}
-                <label for=" identificador">Booking Code</label>
-                    <input type="text" required name="identificador" class="form-control" id="identificador" placeholder="AVI-345" value="">
-                </div>
-                <button type="submit" class="btn btn-primary mt-2">Submit</button>
-            </form>
-            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary">Back</a>
-        </div>
-    <?php
-    }
-    /**
-     * Metodo que muestra la informacion de un pasaje
+     * Metodo que muestra la informacion de uun  VUELO Y SUS PASAJES
      * @param Recibe un array bidemensional, con la info en el indice 0
      * 
      */
@@ -146,7 +124,7 @@ class InfoView
     ?>
         <div class="main-container__content__table">
             <h1 class="black-text center">All Flights</h1>
-            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary mb-3 ">Back</a>
+            <a href="index.php?controller=Flight&action=initFlights" class="btn btn-primary mb-3 ">Back</a>
 
             <table class="table table-striped table-dark table-custom">
 
@@ -176,8 +154,8 @@ class InfoView
                         <td><?= $vuelo[0]['País de destino'] ?></td>
                         <td><?= $vuelo[0]['Tipo de vuelo'] ?></td>
                         <td><?= $vuelo[0]['Número de pasajeros del vuelo'] ?></td>
-                        <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
-                        <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
+                        <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
+                        <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
                     </tr>
                 </tbody>
             </table>
