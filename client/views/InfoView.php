@@ -110,13 +110,13 @@ class InfoView
      * Metodo que muestra el formulario para pedir el identificador de un vuelo
      * 
      */
-    public function formularioVuelos()
+    public function formFlightId()
     {
 
     ?>
         <h5 class="animate-character mt-5">Info Flight</h5>
         <div class="form-container">
-            <form class="form" action="index.php?controller=Vuelos&action=obtenerInfoVuelo" method="post">
+            <form class="form" action="index.php?controller=Vuelo&action=requestFlight" method="post">
                 <div class="form-group
 }
                 <label for=" identificador">Booking Code</label>
@@ -124,7 +124,7 @@ class InfoView
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Submit</button>
             </form>
-            <a href="index.php?controller=Vuelos&action=inicioVuelos" class="btn btn-primary">Back</a>
+            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary">Back</a>
         </div>
 <?php
     }
@@ -132,8 +132,9 @@ class InfoView
      * Metodo que muestra la informacion del vuelo
      * 
      */
-    public function mostrarInfoVuelo()
+    public function showFlightId($res)
     {
+        var_dump($res);
         // Muestra la información del vuelo
         if (!empty($resultado)) {
             echo "<h1>Información del vuelo</h1>";

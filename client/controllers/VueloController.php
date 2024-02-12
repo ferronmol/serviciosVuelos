@@ -53,16 +53,17 @@ class VueloController
     /**
      * Pide a la vista que muestre el formulario para pedir el identificador de UN vuelo.
      */
-    public function mostrarVuelo()
+    public function FlightId()
     {
 
-        $this->InfoView->formularioVuelos();
+        $this->InfoView->formFlightId();
     }
 
     /**
-     * Obtiene la información de un vuelo concreto.
+     * Recibe el identificador del form y se lo manda al servicio
+     * Manda a la vista la respuesta del servicio
      */
-    public function obtenerInfoVuelo()
+    public function requestFlight()
     {
         if (isset($_POST['identificador'])) {
             $identificador = $_POST['identificador'];
@@ -70,9 +71,9 @@ class VueloController
         //var_dump($identificador); //ok
 
         // Envía el identificador al servicio para procesar la información del vuelo
-        $this->vueloService->obtenerInfoVuelo($identificador);
+        $res = $this->vueloService->requestFlightId($identificador);
 
         // Muestra el resultado en la vista correspondiente
-        $this->InfoView->mostrarInfoVuelo();
+        $this->InfoView->showFlightId($res);
     }
 }

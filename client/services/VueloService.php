@@ -42,12 +42,11 @@ class VueloService
      * Metodo que pide al servidor la información de un vuelo concreto
      * @param $identificador identificador del vuelo
      */
-    public function obtenerInfoVuelo($identificador)
+    public function requestFlightId($identificador)
     {
         var_dump($identificador);
         //codificamos el identificador para que no de problemas en la url
-        $identificadorCod = urlencode($identificador);
-        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php" . $identificadorCod;
+        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php" . $identificador;
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
@@ -59,8 +58,7 @@ class VueloService
         curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($conexion);
         if ($res) {
-            echo "<br>Salida request_curl<br>";
-            print_r($res);
+            return $res;
         }
         curl_close($conexion);
     }
