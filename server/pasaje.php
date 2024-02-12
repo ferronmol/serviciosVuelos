@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode($json, true);
 
     // Verificar que todas las claves necesarias estén presentes
-    $requiredFields = ['pasajeroCod', 'identificador', 'numAsiento', 'clase', 'pvp'];
+    $requiredFields = ['pasajerocod', 'identificador', 'numasiento', 'clase', 'pvp'];
 
     foreach ($requiredFields as $field) {
         if (!isset($data[$field])) {
@@ -28,20 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Crear un objeto Pasaje con los datos recibidos
     $pasaje = new Pasaje(
         null,
-        $data['pasajeroCod'],
+        $data['pasajerocod'],
         $data['identificador'],
-        $data['numAsiento'],
+        $data['numasiento'],
         $data['clase'],
         $data['pvp']
     );
 
     // Crear una instancia de PasajeModel
-    $pasajeModel = new PasajeModel(new DB(/* Configuración de la base de datos */));
+    $pasajeModel = new PasajeModel(new DB());
 
     // Insertar el pasaje y obtener el mensaje de resultado
     $resultado = $pasajeModel->insertarPasaje($pasaje);
 
-    // Devolver el resultado como respuesta (puedes adaptar esto según tus necesidades)
+    // Devolver el resultado como respuesta
     echo $resultado;
 }
 // Si la solicitud no es de tipo POST, devolver un error

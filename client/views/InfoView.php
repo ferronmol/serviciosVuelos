@@ -72,7 +72,14 @@ class InfoView
     ?>
         <h5 class="animate-character mt-5">Create Booking</h5>
         <div class="form-container form">
-            <form class="form" action="index.php?controller=Pasaje&action=recibirFormularioBooking" method="post">
+            <?php
+            if (isset($_SESSION['message'])) {
+                echo "<div class='alert alert-light' role='alert'>" . $_SESSION['message'] . "</div>";
+                unset($_SESSION['message']);
+            }
+            ?>
+
+            <form class="form" action="index.php?controller=Pasaje&action=FormBooking" method="post">
                 <div class="form-group">
                     <label for="pasajerocod">Passenguer Code</label>
                     <input type="number" required name="pasajerocod" class="form-control" id="pasajerocod" placeholder="7" value="">
@@ -101,7 +108,7 @@ class InfoView
 
                 <button type="submit" class="btn btn-primary mt-2">Submit</button>
             </form>
-            <a href="index.php?controller=Vuelos&action=inicioVuelos" class="btn btn-primary">Back</a>
+            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary">Back</a>
         </div>
 
     <?php
@@ -126,29 +133,55 @@ class InfoView
             </form>
             <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary">Back</a>
         </div>
-<?php
+    <?php
     }
     /**
-     * Metodo que muestra la informacion del vuelo
+     * Metodo que muestra la informacion de un pasaje
+     * @param Recibe un array bidemensional, con la info en el indice 0
      * 
      */
-    public function showFlightId($res)
+    public function showFlightId($vuelo)
     {
-        var_dump($res);
-        // Muestra la información del vuelo
-        if (!empty($resultado)) {
-            echo "<h1>Información del vuelo</h1>";
-            echo "<p>Identificador: " . $resultado['identificador'] . "</p>";
-            echo "<p>Origen: " . $resultado['origen'] . "</p>";
-            echo "<p>Destino: " . $resultado['destino'] . "</p>";
-            echo "<p>Fecha de salida: " . $resultado['fechasalida'] . "</p>";
-            echo "<p>Fecha de llegada: " . $resultado['fechallegada'] . "</p>";
-            echo "<p>Numero de pasajeros: " . $resultado['numpasajeros'] . "</p>";
-            echo "<p>Clase: " . $resultado['clase'] . "</p>";
-            echo "<p>Precio: " . $resultado['pvp'] . "</p>";
-        } else {
-            echo "<h1>No se ha encontrado el vuelo</h1>";
-        }
+        //var_dump($vuelo);
+    ?>
+        <div class="main-container__content__table">
+            <h1 class="black-text center">All Flights</h1>
+            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary mb-3 ">Back</a>
+
+            <table class="table table-striped table-dark table-custom">
+
+                <thead>
+                    <tr>
+                        <th scope="col center">IDENTIFIER</th>
+                        <th scope="col center">SOURCE AIRPORT</th>
+                        <th scope="col center">DEPARTURE AIRPORT</th>
+                        <th scope="col center">DEPARTURE COUNTRY</th>
+                        <th scope="col center">DESTINATION AIRPORT</th>
+                        <th scope="col center">ARRIVAL AIRPORT</th>
+                        <th scope="col center">ARRIVAL COUNTRY</th>
+                        <th scope="col center">FLIGHT TYPE</th>
+                        <th scope="col center">NUMBER OF PASSENGERS</th>
+                        <th scope="col center">Edit</th>
+                        <th scope="col center">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?= $vuelo[0]['Identificador del vuelo'] ?></td>
+                        <td><?= $vuelo[0]['Aeropuerto de origen'] ?></td>
+                        <td><?= $vuelo[0]['Nombre aeropuerto de origen'] ?></td>
+                        <td><?= $vuelo[0]['País de origen'] ?></td>
+                        <td><?= $vuelo[0]['Aeropuerto de destino'] ?></td>
+                        <td><?= $vuelo[0]['Nombre aeropuerto destino'] ?></td>
+                        <td><?= $vuelo[0]['País de destino'] ?></td>
+                        <td><?= $vuelo[0]['Tipo de vuelo'] ?></td>
+                        <td><?= $vuelo[0]['Número de pasajeros del vuelo'] ?></td>
+                        <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
+                        <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+<?php
     }
 }
-?>

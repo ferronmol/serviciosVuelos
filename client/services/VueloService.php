@@ -3,6 +3,7 @@ class VueloService
 {
     /**
      * Metodo que pide al servidor la información de todos los vuelos
+     * 
      */
 
     public function request()
@@ -41,12 +42,13 @@ class VueloService
     /**
      * Metodo que pide al servidor la información de un vuelo concreto
      * @param $identificador identificador del vuelo
+     * @return Array bidemensional 
      */
     public function requestFlightId($identificador)
     {
-        var_dump($identificador);
+        //var_dump($identificador);
         //codificamos el identificador para que no de problemas en la url
-        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php" . $identificador;
+        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php?identificador=" . $identificador;
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
@@ -58,8 +60,10 @@ class VueloService
         curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($conexion);
         if ($res) {
-            return $res;
+            // return $res; si queiro un objeto
+            $resArray =  json_decode($res, true);
+            curl_close($conexion);
+            return $resArray;
         }
-        curl_close($conexion);
     }
 }
