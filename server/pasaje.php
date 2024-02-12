@@ -44,3 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Devolver el resultado como respuesta (puedes adaptar esto según tus necesidades)
     echo $resultado;
 }
+// Si la solicitud no es de tipo POST, devolver un error
+else {
+    header("HTTP/1.1 400 Bad Request");
+    echo json_encode(['error' => 'Solicitud no válida']);
+}

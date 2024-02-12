@@ -1,6 +1,6 @@
 <?php
 
-class PasajesService
+class PasajeService
 {
 
     /**
@@ -12,11 +12,7 @@ class PasajesService
         if (!isset($pasaje) || empty($pasaje) || $pasaje == null) {
             return "No se ha recibido un pasaje";
         }
-        echo "Pasaje recibido en service: ";
-
-        var_dump($pasaje);
-        die();
-        $urlmiservicio = "http://localhost:3000/server/pasaje.php";
+        $urlmiservicio = "http://localhost/serviciosVuelos/server/pasaje.php";
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);

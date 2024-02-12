@@ -1,5 +1,5 @@
 <?php
-class VuelosService
+class VueloService
 {
     /**
      * Metodo que pide al servidor la información de todos los vuelos
@@ -7,8 +7,7 @@ class VuelosService
 
     public function request()
     {
-        echo "request";
-        $urlmiservicio = "http://localhost:3000/server/Vuelos.php";
+        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php";
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
@@ -19,11 +18,24 @@ class VuelosService
         //para recibir una respuesta
         curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($conexion);
-        if ($res) {
-            echo "<br>Salida request_curl<br>";
-            print_r($res);
+        // Verificar errores
+        if ($res === false) {
+            echo "Error en la solicitud: " . curl_error($conexion);
+            return false;
         }
+
+        // Verificar el código de estado HTTP
+        $httpCode = curl_getinfo($conexion, CURLINFO_HTTP_CODE);
+        if ($httpCode !== 200) {
+            echo "Error en la respuesta del servidor (código $httpCode)";
+            return false;
+        }
+
+        // Cerrar la conexión
         curl_close($conexion);
+
+        // Devolver la respuesta
+        return $res;
     }
 
     /**
@@ -35,7 +47,7 @@ class VuelosService
         var_dump($identificador);
         //codificamos el identificador para que no de problemas en la url
         $identificadorCod = urlencode($identificador);
-        $urlmiservicio = "http://localhost:3000/server/Vuelos.php/?identificador=" . $identificadorCod;
+        $urlmiservicio = "http://localhost/serviciosVuelos/server/Vuelos.php" . $identificadorCod;
         $conexion = curl_init();
         //Url de la petición
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);

@@ -34,3 +34,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit();
     }
 }
+
+header("HTTP/1.1 400 Bad Request");

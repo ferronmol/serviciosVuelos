@@ -1,10 +1,11 @@
 <?php
 include_once __DIR__ . '/views/UserView.php';
+include_once __DIR__ . '/views/VueloView.php';
 include_once __DIR__ . '/controllers/UserController.php';
-include_once __DIR__ . '/views/VuelosView.php';
-include_once __DIR__ . '/controllers/VuelosController.php';
-include_once __DIR__ . '/services/VuelosService.php';
-include_once __DIR__ . '/services/PasajesService.php';
+include_once __DIR__ . '/controllers/PasajeController.php';
+include_once __DIR__ . '/controllers/VueloController.php';
+include_once __DIR__ . '/services/VueloService.php';
+include_once __DIR__ . '/services/PasajeService.php';
 include_once __DIR__ . '/views/InfoView.php';
 
 // Define la acción por defecto

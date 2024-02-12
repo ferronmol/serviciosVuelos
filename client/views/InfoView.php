@@ -1,5 +1,5 @@
 <?php
-include_once("./controllers/VuelosController.php");
+include_once("./controllers/VueloController.php");
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -10,13 +10,13 @@ class InfoView
      * Muestra la información de los vuelos.
      * @param string $mensajeError Mensaje de error a mostrar (opcional).
      */
-    public function AllFlights()
+    public function AllFlights($vuelos)
     {
 
 ?>
         <div class="main-container__content__table">
             <h1 class="black-text center">All Flights</h1>
-            <a href="index.php?controller=Hotel&action=inicioHoteles" class="btn btn-primary ">Back</a>
+            <a href="index.php?controller=Vuelo&action=inicioVuelos" class="btn btn-primary mb-3 ">Back</a>
 
             <table class="table table-striped table-dark table-custom">
 
@@ -33,24 +33,29 @@ class InfoView
                         <th scope="col center">NUMBER OF PASSENGERS</th>
                         <th scope="col center">Edit</th>
                         <th scope="col center">Delete</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>2022-10-10</td>
-                        <td>2022-10-15</td>
-                        <td>1</td>
-                        <td>John Doe</td>
-                        <td>1</td>
-                        <td>Hotel California</td>
-                        <td>1</td>
-                        <td>101</td>
-                        <td>54</td>
-                        <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
-                        <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
-                    </tr>
-                    <tr>
+                    <?php
+                    foreach ($vuelos as $vuelo) {
+                    ?>
+                        <tr>
+                            <td><?= $vuelo['Identificador del vuelo'] ?></td>
+                            <td><?= $vuelo['Aeropuerto de origen'] ?></td>
+                            <td><?= $vuelo['Nombre aeropuerto de origen'] ?></td>
+                            <td><?= $vuelo['País de origen'] ?></td>
+                            <td><?= $vuelo['Aeropuerto de destino'] ?></td>
+                            <td><?= $vuelo['Nombre aeropuerto destino'] ?></td>
+                            <td><?= $vuelo['País de destino'] ?></td>
+                            <td><?= $vuelo['Tipo de vuelo'] ?></td>
+                            <td><?= $vuelo['Número de pasajeros del vuelo'] ?></td>
+                            <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
+                            <td><a href="index.php?controller=Vuelos&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+
                 </tbody>
             </table>
         </div>
@@ -58,7 +63,7 @@ class InfoView
     }
 
     /**
-     * Metodo que muestra el formulario para insertar uun pasaje
+     * Metodo que muestra el formulario para insertar un pasaje
      * 
      */
     public function FlightBooking()
@@ -67,7 +72,7 @@ class InfoView
     ?>
         <h5 class="animate-character mt-5">Create Booking</h5>
         <div class="form-container form">
-            <form class="form" action="index.php?controller=Vuelos&action=recibirFormularioBooking" method="post">
+            <form class="form" action="index.php?controller=Pasaje&action=recibirFormularioBooking" method="post">
                 <div class="form-group">
                     <label for="pasajerocod">Passenguer Code</label>
                     <input type="number" required name="pasajerocod" class="form-control" id="pasajerocod" placeholder="7" value="">

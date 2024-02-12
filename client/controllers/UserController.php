@@ -48,7 +48,7 @@ class UserController
                     setcookie('ultima_visita', $fechaUltVisita, time() + 7 * 24 * 60 * 60, '/'); //valida por 7 dias
                 }
                 // Redirige a la página de vuelos
-                header('Location: index.php?controller=Vuelos&action=inicioVuelos');
+                header('Location: index.php?controller=Vuelo&action=inicioVuelos');
                 exit();
             } else {
                 // Muestra un mensaje de error
