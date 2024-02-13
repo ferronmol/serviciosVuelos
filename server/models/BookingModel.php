@@ -190,4 +190,45 @@ class BookingModel
             return "Error SQL: " . $e->getMessage();
         }
     }
+    /**
+     * Método para obtener todos los pasajes
+     * @param int $idpasaje Identificador del pasaje a obtener (opcional)
+     * @return array Array de objetos Pasaje
+     */
+    public function getAllBookings($idpasaje = null)
+    {
+
+        $bookingsArray = array();
+
+        try {
+            $sql = "SELECT * FROM pasaje";
+            if ($idpasaje !== null) {
+                $sql .= " WHERE idpasaje = :idpasaje";
+            }
+            $statement = $this->db->getPDO()->prepare($sql);
+            //ojo esto es necesario para que funcione el if de arriba
+            if ($idpasaje !== null) {
+                $statement->bindParam(':idpasaje', $idpasaje, PDO::PARAM_INT);
+            }
+            $statement->execute();
+            $pasajes = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $statement = null;
+
+            foreach ($pasajes as $pasaje) {
+                $booking = array(
+                    'idpasaje' => $pasaje['idpasaje'],
+                    'pasajerocod' => $pasaje['pasajerocod'],
+                    'identificador' => $pasaje['identificador'],
+                    'numasiento' => $pasaje['numasiento'],
+                    'clase' => $pasaje['clase'],
+                    'pvp' => $pasaje['pvp']
+                );
+                array_push($bookingsArray, $booking);
+            }
+
+            return $bookingsArray;
+        } catch (PDOException $e) {
+            throw new Exception("Error SQL: " . $e->getMessage());
+        }
+    }
 }

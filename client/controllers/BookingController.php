@@ -80,10 +80,15 @@ class BookingController
     */
     public function DeleteBooking()
     {
-        //mostramos el formulario para solicitar el id del pasaje
-        $this->formView->DeleteBooking();
         //recogemos el id del pasaje
         $idpasaje = $_GET['idpasaje'];
+        //pedimos al servicio que nos de todos los datos del pasaje que le pasamos
+        $res = $this->bookingService->GetBookings($idpasaje);
+        //convertimos el json de respuesta en un array
+        $bookingId = json_decode($res, true);
+        //lo mandamos al formulario de confirmacion
+        $this->formView->DeleteBooking($bookingId);
+        //pedimos al servicio que borre el pasaje
         $res = $this->bookingService->DeleteBooking($idpasaje);
         //convertimos el json de respuesta en un array
         $res = json_decode($res, true);
@@ -95,5 +100,20 @@ class BookingController
             header('Location: index.php?controller=Booking&action=FlightBooking');
             exit();
         }
+    }
+    /**
+     * Metodo que muestre todos los pasajes
+     * @return array asociativo con los pasajes
+     */
+    public function ShowBooking()
+    {
+        //pedimos al servicio que nos de todos los pasajes
+        $res = $this->bookingService->GetBookings();
+        //convertimos el json de respuesta en un array
+        $bookings = json_decode($res, true);
+        //lo almaceno en la sesion
+        $_SESSION['bookings'] = $bookings;
+        //se lo mando a la vista
+        $this->bookingView->ShowBookings($bookings);
     }
 }

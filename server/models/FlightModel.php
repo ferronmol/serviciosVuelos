@@ -60,6 +60,7 @@ class FlightModel
 
     /**
      * Método para coger todos los vuelos
+     * @param string $identificador Código del vuelo opcional
      * @return  Array de objetos Vuelo
      * @throws Exception
      * 

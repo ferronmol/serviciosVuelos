@@ -70,11 +70,11 @@ class FlightView
             <h1 class="black-text center">All Flights</h1>
             <a href="index.php?controller=Flight&action=initFlight" class="btn btn-primary mb-3 ">Back</a>
 
-            <table class="table table-striped table-dark table-custom">
+            <table class="table--bs-table-bg table-striped table-hover table-custom">
 
-                <thead>
+                <thead class="table border">
                     <tr>
-                        <th scope="col center">IDENTIFIER</th>
+                        <th scope=" col center">IDENTIFIER</th>
                         <th scope="col center">SOURCE AIRPORT</th>
                         <th scope="col center">DEPARTURE AIRPORT</th>
                         <th scope="col center">DEPARTURE COUNTRY</th>
@@ -91,18 +91,18 @@ class FlightView
                     <?php
                     foreach ($vuelos as $vuelo) {
                     ?>
-                        <tr>
-                            <td><?= $vuelo['Identificador del vuelo'] ?></td>
-                            <td><?= $vuelo['Aeropuerto de origen'] ?></td>
-                            <td><?= $vuelo['Nombre aeropuerto de origen'] ?></td>
-                            <td><?= $vuelo['País de origen'] ?></td>
-                            <td><?= $vuelo['Aeropuerto de destino'] ?></td>
-                            <td><?= $vuelo['Nombre aeropuerto destino'] ?></td>
-                            <td><?= $vuelo['País de destino'] ?></td>
-                            <td><?= $vuelo['Tipo de vuelo'] ?></td>
-                            <td><?= $vuelo['Número de pasajeros del vuelo'] ?></td>
-                            <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
-                            <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
+                        <tr class="--bs-table-active-bg">
+                            <td class="center"><?= $vuelo['Identificador del vuelo'] ?></td>
+                            <td class="center"><?= $vuelo['Aeropuerto de origen'] ?></td>
+                            <td class="center"><?= $vuelo['Nombre aeropuerto de origen'] ?></td>
+                            <td class="center"><?= $vuelo['País de origen'] ?></td>
+                            <td class="center"><?= $vuelo['Aeropuerto de destino'] ?></td>
+                            <td class="center"><?= $vuelo['Nombre aeropuerto destino'] ?></td>
+                            <td class="center"><?= $vuelo['País de destino'] ?></td>
+                            <td class="center"><?= $vuelo['Tipo de vuelo'] ?></td>
+                            <td class="center"><?= $vuelo['Número de pasajeros del vuelo'] ?></td>
+                            <td class="center"><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary"><i class="bi bi-pencil"></i></a></td>
+                            <td class="center"><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-outline-danger"><i class="bi bi-trash"></a></td>
                         </tr>
                     <?php
                     }
@@ -124,11 +124,11 @@ class FlightView
     ?>
         <div class="main-container__content__table">
             <h1 class="black-text center">All Flights</h1>
-            <a href="index.php?controller=Flight&action=initFlights" class="btn btn-primary mb-3 ">Back</a>
+            <a href="index.php?controller=Flight&action=initFlight" class="btn btn-primary mb-3 ">Back</a>
 
-            <table class="table table-striped table-dark table-custom">
+            <table class="table--bs-table-bg table-striped table-hover table-custom">
 
-                <thead>
+                <thead class="table border">
                     <tr>
                         <th scope="col center">IDENTIFIER</th>
                         <th scope="col center">SOURCE AIRPORT</th>
@@ -144,18 +144,18 @@ class FlightView
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><?= $vuelo[0]['Identificador del vuelo'] ?></td>
-                        <td><?= $vuelo[0]['Aeropuerto de origen'] ?></td>
-                        <td><?= $vuelo[0]['Nombre aeropuerto de origen'] ?></td>
-                        <td><?= $vuelo[0]['País de origen'] ?></td>
-                        <td><?= $vuelo[0]['Aeropuerto de destino'] ?></td>
-                        <td><?= $vuelo[0]['Nombre aeropuerto destino'] ?></td>
-                        <td><?= $vuelo[0]['País de destino'] ?></td>
-                        <td><?= $vuelo[0]['Tipo de vuelo'] ?></td>
-                        <td><?= $vuelo[0]['Número de pasajeros del vuelo'] ?></td>
+                    <tr class="--bs-table-active-bg">
+                        <td class="center"><?= $vuelo[0]['Identificador del vuelo'] ?></td>
+                        <td class="center"><?= $vuelo[0]['Aeropuerto de origen'] ?></td>
+                        <td class="center"><?= $vuelo[0]['Nombre aeropuerto de origen'] ?></td>
+                        <td class="center"><?= $vuelo[0]['País de origen'] ?></td>
+                        <td class="center"><?= $vuelo[0]['Aeropuerto de destino'] ?></td>
+                        <td class="center"><?= $vuelo[0]['Nombre aeropuerto destino'] ?></td>
+                        <td class="center"><?= $vuelo[0]['País de destino'] ?></td>
+                        <td class="center"><?= $vuelo[0]['Tipo de vuelo'] ?></td>
+                        <td class="center"><?= $vuelo[0]['Número de pasajeros del vuelo'] ?></td>
                         <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Edit</a></td>
-                        <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary">Delete</a></td>
+                        <td><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a></td>
                     </tr>
                 </tbody>
             </table>

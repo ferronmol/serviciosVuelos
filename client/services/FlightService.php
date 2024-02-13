@@ -14,7 +14,7 @@ class FlightService
         curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
         //Tipo de petición
         curl_setopt($conexion, CURLOPT_HTTPGET, TRUE);
-        //Tipo de contenido de la respuesta
+        //Tipo de contenido de la respuesta, espera un array
         curl_setopt($conexion, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
         //para recibir una respuesta
         curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);

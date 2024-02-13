@@ -52,6 +52,51 @@ class BookingService
         }
     }
     /**
+     * Método qeu pide todos los pasajes al servicio o opcionalemnte uno si se le pasa el id. GET
+     */
+    public function GetBookings($idpasaje = null)
+    {
+        if ($idpasaje == null) {
+            $urlmiservicio = "http://localhost/serviciosVuelos/server/Booking.php";
+        } else {
+            $urlmiservicio = "http://localhost/serviciosVuelos/server/Booking.php?idpasaje=" . $idpasaje;
+        }
+        $conexion = curl_init();
+        //Url de la petición
+        curl_setopt($conexion, CURLOPT_URL, $urlmiservicio);
+        //Tipo de petición
+        curl_setopt($conexion, CURLOPT_HTTPGET, true);
+        //tipo de contenido de la respuesta
+        curl_setopt($conexion, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
+        //para recibir una respuesta
+        curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($conexion);
+        //$res es la respuesta del servidor , en los get no se  convierte a json     
+        // Verificar errores
+        if ($res === false) {
+            echo "Error en la solicitud: " . curl_error($conexion);
+            return false;
+        }
+
+        // Verificar el código de estado HTTP
+        $httpCode = curl_getinfo($conexion, CURLINFO_HTTP_CODE);
+        if ($httpCode !== 200) {
+            echo "Error en la respuesta del servidor (código $httpCode)";
+            return false;
+        }
+
+        // Cerrar la conexión
+        curl_close($conexion);
+
+        // Devolver la respuesta
+        return $res;
+    }
+
+
+
+
+
+    /**
      * Borra un pasaje de la base de datos. DELETE
      * @param int $idpasaje Identificador del pasaje a borrar.
      */

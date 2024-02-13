@@ -452,11 +452,36 @@ form label {
 /*******TABLES********/
 .main-container__content__table {
   width: 80%;
-  border: 2px solid #deaa88;
   border-radius: 6px;
   padding: 0.5rem;
   margin: 1.5rem;
+  background: rgba(255, 255, 255, 0.6);
+  max-height: 650px;
+  overflow-y: auto;
 }
 .center {
   text-align: center;
+  margin: 0 auto;
+}
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0;
+  padding: 0;
+  --bs-table-bg: rgba (0, 0, 0, 0.7);
+  --bs-table-accent-bg: rgba(0, 0, 0, 0.9);
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.9); /* Darker color on hover */
+  color: white;
+}
+.table-custom td {
+  vertical-align: middle;
+}
+.table-custom thead tr {
+  vertical-align: middle;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+  font-size: 0.8rem;
 }

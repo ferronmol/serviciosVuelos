@@ -3,7 +3,11 @@ require_once("./models/FlightModel.php");
 header("Content-Type: application/json");
 
 
-// si recibo una peticion de tipo GET
+/**
+ * Endpoint: server/Flight.php
+ * Método: GET
+ * Decripción: Obtiene todos los vuelos o un vuelo en particular.
+ */
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // si recibo un identificador

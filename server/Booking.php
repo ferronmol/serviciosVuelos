@@ -1,5 +1,6 @@
 <?php
 require_once("./models/BookingModel.php");
+$pasajeModel = new BookingModel(new DB());
 header("Content-Type: application/json");
 
 /**
@@ -35,17 +36,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['pvp']
     );
 
-    // Crear una instancia de PasajeModel
-    $pasajeModel = new BookingModel(new DB());
-
     // Insertar el pasaje y obtener el mensaje de resultado
     $resultado = $pasajeModel->insertBooking($pasaje);
 
     // Devolver el resultado como respuesta
     echo $resultado;
 }
-// Si la solicitud no es de tipo POST, devolver un error
-else {
-    header("HTTP/1.1 400 Bad Request");
-    echo json_encode(['error' => 'Solicitud no válida']);
+
+/**
+ * Endpoint: server/booking.php
+ * Método: GET
+ * Decripción: Obtiene todos los pasajes o un pasaje en particular.
+ * @param int $idpasaje (opcional) El id del pasaje a obtener.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    //si recibo un idpasaje
+    if (isset($_GET['idpasaje'])) {
+        // obtengo el idpasaje
+        $idpasaje = $_GET['idpasaje'];
+        $res = $pasajeModel->getAllBookings($idpasaje);
+        // Obtener del modelo  todos los pasajes en un array asociativo
+    } else {
+        //si no recibo un idpasaje
+        $res = $pasajeModel->getAllBookings();
+    }
+    // Devolver el resultado como JSON
+    echo json_encode($res);
+    exit();
 }
