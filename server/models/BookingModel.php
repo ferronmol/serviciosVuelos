@@ -231,4 +231,29 @@ class BookingModel
             throw new Exception("Error SQL: " . $e->getMessage());
         }
     }
+    /**
+     * Método para eliminar un pasaje a través de su idpasaje
+     * @param int $idpasaje Identificador del pasaje a eliminar
+     * @return string Mensaje indicando el resultado de la operación
+     */
+    public function deleteBooking($idpasaje)
+    {
+        try {
+            // Obtener la conexión PDO
+            $pdo = $this->db->getPDO();
+
+            // Realizar la consulta SQL para eliminar el pasaje
+            $stmt = $pdo->prepare("DELETE FROM pasaje WHERE idpasaje = ?");
+            $stmt->execute([$idpasaje]);
+            //verifico si se elimino algun registro
+            if ($stmt->rowCount() == 0) {
+                return "ERROR AL ELIMINAR EL PASAJE CON ID " . $idpasaje;
+            }
+            // Devolver mensaje de éxito
+            return "REGISTRO ELIMINADO CORRECTAMENTE";
+        } catch (PDOException $e) {
+            // Si hay un error SQL, devolver el mensaje correspondiente
+            return "Error SQL: " . $e->getMessage();
+        }
+    }
 }

@@ -85,25 +85,26 @@ class FormView
     }
     /**
      * Metodo que muestra el formulario para BORRAR UN PASAJE POR SU IDENTIFICADOR
-     * 
+     * @param array $bookingId
      */
     public function DeleteBooking($bookingId)
     {
-        // var_dump($bookingId);
+        //var_dump($bookingId);
     ?>
         <h5 class="animate-character mt-2">Delete Booking</h5>
         <div class="form-container form">
             <?php
-            if (isset($_SESSION['message']) && $_SESSION['message'] != "") {
-                echo "<div class='alert alert-light' role='alert'>" . $_SESSION['message'] . "</div>";
-                unset($_SESSION['message']);
+            //var_dump($_SESSION['message-delete']);
+            if (isset($_SESSION['message-delete']) && $_SESSION['message-delete'] != "") {
+                echo "<div class='alert alert-light' role='alert'>" . $_SESSION['message-delete'] . "</div>";
             }
             ?>
 
-            <form class="form" action="index.php?controller=Booking&action=DeleteBooking" method="post">
+            <form class="form" action="index.php?controller=Booking&action=DeleteFactBooking" method="post">
+                <input type="hidden" name="idpasaje" value="<?php echo $bookingId[0]['idpasaje'] ?>">
                 <div class="form-group">
                     <label for="pasajerocod">Passenguer Code</label>
-                    <input type="number" readonly name="pasajerocod" class="form-control" id="pasajerocod" placeholder="<?php echo $bookingId[0]['idpasaje'] ?>" value="">
+                    <input type="number" readonly name="pasajerocod" class="form-control" id="pasajerocod" placeholder="<?php echo $bookingId[0]['pasajerocod'] ?>" value="">
                 </div>
                 <div class="form-group">
                     <label for="identificador">Booking Code</label>
@@ -125,6 +126,55 @@ class FormView
                 <button type="submit" class="btn btn-danger mt-2">DELETE</button>
             </form>
             <a href="index.php?controller=Booking&action=ShowBooking" class="btn btn-primary">Back</a>
+        <?php
+    }
+
+    /**
+     * Metodo que muestra el formulario para ACTUALIZAR UN PASAJE POR SU IDENTIFICADOR
+     * @param array $bookingId
+     * 
+     */
+    public function UpdateBooking($bookingId)
+    {
+        ?>
+            <h5 class="animate-character mt-2">Update Booking</h5>
+            <div class="form-container form">
+                <?php
+                if (isset($_SESSION['message-update']) && $_SESSION['message-update'] != "") {
+                    echo "<div class='alert alert-light' role='alert'>" . $_SESSION['message-update'] . "</div>";
+                }
+                ?>
+                <form class="form" action="index.php?controller=Booking&action=UpdateFactBooking" method="post">
+                    <input type="hidden" name="idpasaje" value="<?php echo $bookingId[0]['idpasaje'] ?>">
+                    <div class="form-group">
+                        <label for="pasajerocod">Passenguer Code</label>
+                        <input type="number" required name="pasajerocod" class="form-control" id="pasajerocod" placeholder="<?php echo $bookingId[0]['pasajerocod'] ?>" value="<?php echo $bookingId[0]['pasajerocod'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="identificador">Booking Code</label>
+                        <input type="text" required name="identificador" class="form-control" id="identificador" placeholder="<?php echo $bookingId[0]['identificador'] ?>" value="<?php echo $bookingId[0]['identificador'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="numasiento">Seat Number</label>
+                        <input type="number" required name="numasiento" class="form-control" id="numasiento" placeholder="<?php echo $bookingId[0]['numasiento'] ?>" value="<?php echo $bookingId[0]['numasiento'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="clase">Class</label>
+                        <select name="clase" class="form-select" id="clase">
+                            <option value="primera">First Class</option>
+                            <option value="turista">Turist</option>
+                            <option value="negocios">Business</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pvp">Price</label>
+                        <input type="number" name="pvp" class="form-control" id="pvp" placeholder="<?php echo $bookingId[0]['pvp'] ?>" value="<?php echo $bookingId[0]['pvp'] ?>">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">UPDATE</button>
+                </form>
+                <a href="index.php?controller=Booking&action=ShowBooking" class="btn btn-primary">Back</a>
+            </div>
     <?php
+
     }
 }

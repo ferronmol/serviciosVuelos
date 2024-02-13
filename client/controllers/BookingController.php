@@ -74,13 +74,16 @@ class BookingController
         }
     }
     /*
-    * Método que borra un pasaje a traves de su identificador
+    * Método que prepara el formulario para borrar un pasaje
     *@param int $idpasaje
     *@return mensaje de confirmación o error
     */
-    public function DeleteBooking()
+    public function DeleteBooking($idpasaje = null)
     {
-        //recogemos el id del pasaje
+        //recogemos el id del pasaje si existe
+        if ($idpasaje != null) {
+            $idpasaje = $_GET['idpasaje'];
+        }
         $idpasaje = $_GET['idpasaje'];
         //pedimos al servicio que nos de todos los datos del pasaje que le pasamos
         $res = $this->bookingService->GetBookings($idpasaje);
@@ -88,19 +91,29 @@ class BookingController
         $bookingId = json_decode($res, true);
         //lo mandamos al formulario de confirmacion
         $this->formView->DeleteBooking($bookingId);
-        //pedimos al servicio que borre el pasaje
-        $res = $this->bookingService->DeleteBooking($idpasaje);
-        //convertimos el json de respuesta en un array
-        $res = json_decode($res, true);
-        //si recibo un mensaje del servidor lo almaceno en la sesion
-        if (isset($res['message'])) {
-            //lo guardamos en la sesion
-            $_SESSION['message'] = $res['message'];
-            //redirigimos al formulario
-            header('Location: index.php?controller=Booking&action=FlightBooking');
-            exit();
-        }
     }
+    /**
+     * Metodo que borra un pasaje
+     * @param int $idpasaje
+     * @return mensaje de confirmación o error
+     * 
+     */
+    public function DeleteFactBooking()
+    {
+        //recogemos el id del pasaje por post
+        $idpasaje = $_POST['idpasaje'];
+        //var_dump($idpasaje);
+        //pedimos al servicio que borre el pasaje y nos de un mensaje de confirmacion
+        $res = $this->bookingService->DeleteBooking($idpasaje);
+        // Verificar si la eliminación fue exitosa antes de configurar el mensaje en $_SESSION
+        if ($res === "REGISTRO ELIMINADO CORRECTAMENTE") {
+            $_SESSION['message-delete'] = $res;
+        } else {
+            $_SESSION['message-delete'] = "Error al eliminar el pasaje: " . $res;
+        }
+        $this->DeleteBooking($idpasaje);
+    }
+
     /**
      * Metodo que muestre todos los pasajes
      * @return array asociativo con los pasajes
@@ -115,5 +128,51 @@ class BookingController
         $_SESSION['bookings'] = $bookings;
         //se lo mando a la vista
         $this->bookingView->ShowBookings($bookings);
+    }
+
+    /**
+     * Metodo que prepara el formulario para editar un pasaje
+     * @param int $idpasaje
+     * @return mensaje de confirmación o error
+     */
+    public function UpdateBooking($idpasaje = null)
+    {
+        //recogemos el id del pasaje si existe
+        if ($idpasaje != null) {
+            $idpasaje = $_GET['idpasaje'];
+        }
+        $idpasaje = $_GET['idpasaje'];
+        //pedimos al servicio que nos de todos los datos del pasaje que le pasamos
+        $res = $this->bookingService->GetBookings($idpasaje);
+        //convertimos el json de respuesta en un array
+        $bookingId = json_decode($res, true);
+        //lo mandamos al formulario de edicion
+        $this->formView->UpdateBooking($bookingId);
+    }
+    /**
+     * Metodo que actualiza un pasaje
+     * @param int $idpasaje
+     * @return mensaje de confirmación o error  
+     */
+    public function UpdateFactBooking()
+    {
+        //recogemos todos los campos por post
+        $idpasaje = $_POST['idpasaje'];
+        $pasajerocod = $_POST['pasajerocod'];
+        $identificador = $_POST['identificador'];
+        $numasiento = $_POST['numasiento'];
+        $clase = $_POST['clase'];
+        $pvp = $_POST['pvp'];
+        //creamos un array asociativo con los datos del pasaje
+        $booking = array('idpasaje' => $idpasaje, 'pasajerocod' => $pasajerocod, 'identificador' => $identificador, 'numasiento' => $numasiento, 'clase' => $clase, 'pvp' => $pvp);
+        //pedimos al servicio que actualice el pasaje y nos de un mensaje de confirmacion
+        $res = $this->bookingService->UpdateBooking($booking);
+        // Verificar si la actualización fue exitosa antes de configurar el mensaje en $_SESSION
+        if ($res === "REGISTRO ACTUALIZADO CORRECTAMENTE") {
+            $_SESSION['message-update'] = $res;
+        } else {
+            $_SESSION['message-update'] = "Error al actualizar el pasaje: " . $res;
+        }
+        $this->UpdateBooking($idpasaje);
     }
 }

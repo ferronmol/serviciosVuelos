@@ -53,7 +53,7 @@ class BookingView
                             <td class="center"><?= $booking['clase'] ?></td>
                             <td class="center"><?= $booking['pvp'] ?></td>
 
-                            <td class="center"><a href="index.php?controller=Booking&action=Bookings" class="btn btn-primary"><i class="bi bi-pencil"></i></a></td>
+                            <td class="center"><a href="index.php?controller=Booking&action=UpdateBooking&idpasaje=<?= $booking['idpasaje'] ?>" class="btn btn-primary"><i class="bi bi-pencil"></i></a></td>
                             <td class="center"><a href="index.php?controller=Booking&action=DeleteBooking&idpasaje=<?= $booking['idpasaje'] ?>" class="btn btn-outline-danger"><i class="bi bi-trash"></a></td>
                         </tr>
                     <?php

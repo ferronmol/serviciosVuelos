@@ -54,13 +54,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['idpasaje'])) {
         // obtengo el idpasaje
         $idpasaje = $_GET['idpasaje'];
-        $res = $pasajeModel->getAllBookings($idpasaje);
         // Obtener del modelo  todos los pasajes en un array asociativo
+        $res = $pasajeModel->getAllBookings($idpasaje);
     } else {
         //si no recibo un idpasaje
         $res = $pasajeModel->getAllBookings();
     }
     // Devolver el resultado como JSON
     echo json_encode($res);
+    exit();
+}
+
+/**
+ * Endpoint: server/booking.php
+ * Método: DELETE
+ * Decripción: Elimina un pasaje de la base de datos a partir de su id.
+ * @param int $idpasaje El id del pasaje a eliminar.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    // Verificar si se proporciona el parámetro idpasaje
+    if (!isset($_GET['idpasaje'])) {
+        header("HTTP/1.1 400 Bad Request");
+        echo "Parámetro 'idpasaje' no proporcionado.";
+        exit();
+    }
+    // Obtener el idpasaje de la solicitud
+    $idpasaje = $_GET['idpasaje'];
+
+    // Eliminar el pasaje y obtener el mensaje de resultado
+    $resultado = $pasajeModel->deleteBooking($idpasaje);
+    // Devolver el resultado como respuesta
+    echo $resultado;
     exit();
 }
