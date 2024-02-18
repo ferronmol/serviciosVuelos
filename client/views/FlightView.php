@@ -3,6 +3,7 @@ session_start();
 
 class FlightView
 {
+
     /**
      * Muestra la página de inicio.
      * @param string $mensajeError Mensaje de error a mostrar (opcional).
@@ -28,7 +29,8 @@ class FlightView
                     echo '<p class="text text--min">Usuario no autenticado</p>';
                 }
                 if (isset($_COOKIE['ultima_visita'])) {
-                    echo '<p class="text text--min">Última visita: ' . $_COOKIE['ultima_visita'] . '</p>';
+                    $fechaUltimaVisita = urldecode($_COOKIE['ultima_visita']);
+                    echo '<p class="text text--min">Última visita: ' . $fechaUltimaVisita . '</p>';
                 }
                 ?>
             </div>
@@ -58,18 +60,19 @@ class FlightView
         </div>
     <?php
     }
+
     /**
      * Muestra la información de TODOS LOS VUELOS
      * @param Array $vuelos Array con la información de los vuelos.
      */
     public function AllFlights($vuelos)
     {
+        //var_dump($vuelos)
 
     ?>
         <div class="main-container__content__table">
             <h1 class="black-text center">All Flights</h1>
             <a href="index.php?controller=Flight&action=initFlight" class="btn btn-primary mb-3 ">Back</a>
-
             <table class="table--bs-table-bg table-striped table-hover table-custom">
 
                 <thead class="table border">
@@ -101,8 +104,8 @@ class FlightView
                             <td class="center"><?= $vuelo['País de destino'] ?></td>
                             <td class="center"><?= $vuelo['Tipo de vuelo'] ?></td>
                             <td class="center"><?= $vuelo['Número de pasajeros del vuelo'] ?></td>
-                            <td class="center"><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-primary"><i class="bi bi-pencil"></i></a></td>
-                            <td class="center"><a href="index.php?controller=Flight&action=mostrarInicio" class="btn btn-outline-danger"><i class="bi bi-trash"></a></td>
+                            <td class="center"><a href="index.php?controller=Flight&action=editFlight&id=<?= $vuelo['Identificador del vuelo'] ?>" class="btn btn-primary"><i class="bi bi-pencil"></i></a></td>
+                            <td class="center"><a href="index.php?controller=Flight&action=deleteFlight&id=<?= $vuelo['Identificador del vuelo'] ?>" class="btn btn-outline-danger"><i class="bi bi-trash"></a></td>
                         </tr>
                     <?php
                     }
@@ -113,6 +116,7 @@ class FlightView
         </div>
     <?php
     }
+
     /**
      * Metodo que muestra la informacion de uun  VUELO Y SUS PASAJES
      * @param Recibe un array bidemensional, con la info en el indice 0

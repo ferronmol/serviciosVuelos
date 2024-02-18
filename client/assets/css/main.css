@@ -469,7 +469,7 @@ form label {
   border-spacing: 0;
   margin: 0;
   padding: 0;
-  --bs-table-bg: rgba (0, 0, 0, 0.7);
+  --bs-table-bg: rgba(0, 0, 0, 0.7);
   --bs-table-accent-bg: rgba(0, 0, 0, 0.9);
 }
 .table-hover tbody tr:hover {

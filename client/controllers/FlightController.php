@@ -76,4 +76,35 @@ class FlightController
         // Muestra el resultado en la vista correspondiente
         $this->flightView->showFlightId($res);
     }
+
+    /**
+     * Método para borrar un vuelo
+     * @param int $idVuelo Identificador del vuelo a borrar
+     * @return void
+     */
+    public function deleteFlight()
+    {
+        if (isset($_GET['id'])) {
+            $idVuelo = $_GET['id'];
+        }
+        //var_dump($idVuelo); //ok
+        //le pido al servicio que borre el vuelo
+        $this->flightService->deleteFlight($idVuelo);
+    }
+    /**
+     * Pide a la vista que muestre el formulario para actualzizar un vuelo
+     * @param int $idVuelo Identificador del vuelo a actualizar
+     */
+    public function editFlight()
+    {
+        if (isset($_GET['id'])) {
+            $idVuelo = $_GET['id'];
+        }
+        //var_dump($idVuelo); //ok
+        //le pido al servicio que me de la info del vuelo
+        $res = $this->flightService->requestFlightId($idVuelo);
+        //var_dump($res); //ok
+        //le pido a la vista que me muestre el formulario con la info del vuelo
+        $this->formView->formEditFlight($res);
+    }
 }

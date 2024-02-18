@@ -1,29 +1,24 @@
 <?php
-$configFilePath = __DIR__ . '/../config/Config.php';
-/*
-* Verifica si existe el archivo de configuración.
-*/
-if (file_exists($configFilePath)) {
-    require_once($configFilePath);
-} else {
-    throw new Exception('Config file not found');
-    exit;
-}
-class DB
+require_once './config/Config.php';
+
+/**
+ * Clase abstracta que representa la conexión a la base de datos.
+ * @version 1.0
+ */
+abstract class DB
 {
-    private $pdo;
+
+    private $conexion;
+    private $mensajeerror;
+
 
     /**
-     * Constructor de la clase DB.
-     * @param string $host Nombre del host
-     * @param string $databaseName Nombre de la base de datos
-     * @param string $user Nombre de usuario
-     * @param string $password Contraseña
-     * @throws Exception
+     * Método que obtiene la conexión a la base de datos.
+     * @return PDO|null Retorna la conexión a la base de datos o null si no se pudo conectar.
      */
-
-    public function __construct()
+    public function getConexion()
     {
+
         $host = DB_HOST;
         $databaseName = DB_NAME;
         $user = DB_USER;
@@ -31,48 +26,32 @@ class DB
 
         try {
             // Crea una instancia de PDO para conectarse a la base de datos
-            $dsn = "mysql:host=$host;dbname=$databaseName;charset=utf8";
-            $this->pdo = new PDO($dsn, $user, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conexion =
+                new PDO("mysql:host=$host;dbname=$databaseName;charset=utf8", $user, $password);
+
+            $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $this->conexion;
         } catch (PDOException $ex) {
-            header('Location: ../../../../client/views/errorView.php?error=Error en la conexión con la base de datos');
-            throw new Exception('Se ha soltado algún cable del servidor de la base de datos');
+            $this->mensajeerror = $ex->getMessage();
+            return null;
         }
     }
-
-
     /**
-     * Obtén la instancia de PDO para interactuar con la base de datos y realizar consultas.
-     * @return PDO
+     * Método que obtiene el mensaje de error.
+     * @return string Retorna el mensaje de error.
      */
-    public function getPDO()
+    public function getMensajeError()
     {
-        return $this->pdo;
+        return $this->mensajeerror;
     }
 
-
     /**
-     * Cierra la conexión con la base de datos
+     * Método que cierra la conexión a la base de datos.
      * @return void
      */
-    public function cierroBD()
-    {
-        $this->pdo = null;
-    }
 
-    /**
-     * Verifica si la conexión con la base de datos está activa.
-     * @return boolean
-     * @throws Exception
-     */
-    public function verificarConexion()
+    public function closeConexion()
     {
-        try {
-            $this->getPDO();
-            return true;
-        } catch (Exception $e) {
-
-            return false;
-        }
+        $this->conexion = null;
     }
 }

@@ -43,7 +43,14 @@ class UserController
                 // Guarda el nombre de usuario en la sesión
                 $_SESSION['nombre'] = $nombre;
                 // var_dump($_SESSION['nombre']); ok
+
+                /**********COOKIE DE ULTIMA VISITA ************ */
+                // Comprueba si existe la cookie de última visita
                 if (isset($_COOKIE['ultima_visita'])) {
+                    //OBTENGO L ULTIMA VISITA almacena en la cookie
+                    $fechaUltVisita = $_COOKIE['ultima_visita'];
+                } else {
+                    // Si no existe la cookie de última visita, se crea
                     $fechaUltVisita = date('Y-m-d H:i:s');
                     setcookie('ultima_visita', $fechaUltVisita, time() + 7 * 24 * 60 * 60, '/'); //valida por 7 dias
                 }

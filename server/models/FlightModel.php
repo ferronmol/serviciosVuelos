@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../db/DB.php';
+require './db/DB.php';
 
 /**
  * *********************VUELOS**********************************************
@@ -32,29 +32,27 @@ class Flight
     }
 }
 
-class FlightModel
+/**
+ * clase: FlightModel: Representa la clase que se encarga de la lógica de los vuelos.
+ * extends DB
+ */
+class FlightModel extends DB
 {
-    private $db;
+    private $conexion;
+    private $table;
 
     /**
-     * Constructor de la clase VuelosModel
-     * @param DB $db Instancia de la clase DB
-     * @throws Exception
+     * Constructor de la clase FlightModel
+     * @return void
      */
 
-    public function __construct(DB $db)
+    public function __construct()
     {
-        $this->db = $db;
+        $this->table = "vuelo";
+        $this->conexion = $this->getConexion();
 
-        try {
-            $pdoInstance = $this->db->getPDO();
-
-            if ($pdoInstance == null) {
-                throw new Exception("No estás conectado con la base de datos ");
-            }
-        } catch (PDOException $e) {
-            // Manejar errores de conexión PDO si es necesario
-            throw new Exception("Error de conexión con la base de datos: " . $e->getMessage());
+        if ($this->conexion == null) {
+            throw new Exception("Error de conexión a la base de datos", 1);
         }
     }
 
@@ -73,7 +71,7 @@ class FlightModel
             if ($identificador !== null) {
                 $sql .= " WHERE identificador = :identificador";
             }
-            $stmt = $this->db->getPDO()->prepare($sql);
+            $stmt = $this->conexion->prepare($sql);
 
             if ($identificador !== null) {
                 $stmt->bindParam(':identificador', $identificador, PDO::PARAM_STR);
@@ -121,7 +119,7 @@ class FlightModel
             $sql .= " GROUP BY
             v.identificador, v.aeropuertoorigen, a1.nombre, a1.pais, v.aeropuertodestino, a2.nombre, a2.pais, v.tipovuelo";
 
-            $stmt = $this->db->getPDO()->prepare($sql);
+            $stmt = $this->conexion->prepare($sql);
 
             if ($identificador !== null) {
                 $stmt->bindParam(':identificador', $identificador, PDO::PARAM_STR);

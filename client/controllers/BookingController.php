@@ -137,13 +137,17 @@ class BookingController
      */
     public function UpdateBooking($idpasaje = null)
     {
-        //recogemos el id del pasaje si existe
-        if ($idpasaje != null) {
-            $idpasaje = $_GET['idpasaje'];
+        //si recibo un idpasaje POR GET  LO GUARDO EN LA VARIABLE
+        $idpasaje = isset($_GET['idpasaje']) ? $_GET['idpasaje'] : null;
+
+        if ($idpasaje !== null) {
+            // Guardar en la sesión si es necesario
+            $_SESSION['idpasaje'] = $idpasaje;
+
+            $res = $this->bookingService->GetBookings($idpasaje);
+        } else {
+            $res = $this->bookingService->GetBookings();
         }
-        $idpasaje = $_GET['idpasaje'];
-        //pedimos al servicio que nos de todos los datos del pasaje que le pasamos
-        $res = $this->bookingService->GetBookings($idpasaje);
         //convertimos el json de respuesta en un array
         $bookingId = json_decode($res, true);
         //lo mandamos al formulario de edicion
@@ -151,28 +155,42 @@ class BookingController
     }
     /**
      * Metodo que actualiza un pasaje
-     * @param int $idpasaje
      * @return mensaje de confirmación o error  
      */
     public function UpdateFactBooking()
     {
-        //recogemos todos los campos por post
-        $idpasaje = $_POST['idpasaje'];
-        $pasajerocod = $_POST['pasajerocod'];
-        $identificador = $_POST['identificador'];
-        $numasiento = $_POST['numasiento'];
-        $clase = $_POST['clase'];
-        $pvp = $_POST['pvp'];
-        //creamos un array asociativo con los datos del pasaje
-        $booking = array('idpasaje' => $idpasaje, 'pasajerocod' => $pasajerocod, 'identificador' => $identificador, 'numasiento' => $numasiento, 'clase' => $clase, 'pvp' => $pvp);
-        //pedimos al servicio que actualice el pasaje y nos de un mensaje de confirmacion
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            // Recoger los datos del formulario de actualización 
+            // PONIENDO EL TIPO DE DATO QUE SE ESPERA
+            $idpasaje = isset($_POST['idpasaje']) ? (int)$_POST['idpasaje'] : null;
+            $pasajerocod = isset($_POST['pasajerocod']) ? (int)$_POST['pasajerocod'] : null;
+            $identificador = $_POST['identificador'];
+            $numasiento = isset($_POST['numasiento']) ? (int)$_POST['numasiento'] : null;
+            $clase = $_POST['clase'];
+            $pvp = isset($_POST['pvp']) ? (float)$_POST['pvp'] : null;
+        }
+        // var_dump($idpasaje);
+
+        // Crear un array asociativo con los datos del pasaje
+        $booking = [
+            'idpasaje' => $idpasaje,
+            'pasajerocod' => $pasajerocod,
+            'identificador' => $identificador,
+            'numasiento' => $numasiento,
+            'clase' => $clase,
+            'pvp' => $pvp
+        ];
+        //var_dump($booking); ok
+        // Pedimos al servicio que actualice el pasaje y nos dé un mensaje de confirmación
         $res = $this->bookingService->UpdateBooking($booking);
         // Verificar si la actualización fue exitosa antes de configurar el mensaje en $_SESSION
         if ($res === "REGISTRO ACTUALIZADO CORRECTAMENTE") {
             $_SESSION['message-update'] = $res;
         } else {
-            $_SESSION['message-update'] = "Error al actualizar el pasaje: " . $res;
+            $_SESSION['message-update'] = "Error: " . $res;
         }
-        $this->UpdateBooking($idpasaje);
+
+        $this->UpdateBooking($booking['idpasaje']);
     }
 }

@@ -1,40 +1,37 @@
 <?php
-require_once("./models/FlightModel.php");
+require './models/FlightModel.php';
+$flight = new FlightModel();
+
 header("Content-Type: application/json");
 
 
-/**
+/*************  G  E   T ***************************
  * Endpoint: server/Flight.php
  * Método: GET
- * Decripción: Obtiene todos los vuelos o un vuelo en particular.
+ * Descripción: Obtiene todos los vuelos o un vuelo en particular.
  */
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // si recibo un identificador
     if (isset($_GET['identificador'])) {
-        // obtengo el identificador
-        $identificador = $_GET['identificador'];
-        // creo una instancia de VuelosModel
-        $vuelosModel = new FlightModel(new DB());
-        // obtengo todo lo de un vuelo con el indentificador
-        $vuelo  = $vuelosModel->getAllFlights($identificador);
+        $res = $flight->getAllFlights($_GET['identificador']);
         // si el vuelo no existe
-        if ($vuelo == null) {
+        if ($res == null) {
             // devuelvo un error
             http_response_code(404);
             echo json_encode(['error' => 'El vuelo no existe']);
         } else {
             // devuelvo el vuelo en formato json
-            echo json_encode($vuelo);
+            echo json_encode($res);
             exit();
         }
     } else {
         //obtengo todos los vuelos
-        $vuelosModel = new FlightModel(new DB());
-        $vuelos = $vuelosModel->getAllFlights();
+
+        $res = $flight->getAllFlights();
         //var_dump($vuelos);
         // devuelvo los vuelos en formato json
-        echo json_encode($vuelos);
+        echo json_encode($res);
         exit();
     }
 }

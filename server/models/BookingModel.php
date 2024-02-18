@@ -1,14 +1,14 @@
 <?php
-//tendre que usar getPDO() para obtener la conexion a la base de datos
-require_once __DIR__ . '/../db/DB.php';
+include_once './db/DB.php';
 
 /**
- * CLASE PASAJE
- * Clase Pasaje: Representa un pasaje de la aplicación.
+ * CLASE BOOKING
+ * Clase Booking: Representa un pasaje de la aplicación.
  
  */
 class Booking
 {
+
     private $idpasaje;
     private $pasajerocod;
     private $identificador;
@@ -29,6 +29,7 @@ class Booking
 
     public function __construct($idpasaje, $pasajerocod, $identificador, $numasiento, $clase, $pvp)
     {
+
         $this->idpasaje = $idpasaje;
         $this->pasajerocod = $pasajerocod;
         $this->identificador = $identificador;
@@ -63,48 +64,26 @@ class Booking
     }
 }
 /**
- * Clase PasajeModel: Representa el modelo (Lógica de negocio) de los pasajes.
- * @param DB $db Instancia de la clase DB
+ * Clase BookingModel: Representa el modelo (Lógica de negocio) de los pasajes.
+ * extends DB
  */
 
-class BookingModel
+class BookingModel extends DB
 {
-    private $db;
+    private $conexion;
+    private $table;
 
 
     /**
-     * Constructor de la clase PasajeModel.
-     * @param DB $db Instancia de la clase DB
-     * @throws Exception Si no se puede conectar a la base de datos
+     * Constructor de la clase BookingModel.
+     * @return void
      */
-    public function __construct($db)
+    public function __construct()
     {
-        $this->db = $db;
-        try {
-            $pdoInstance = $this->db->getPDO();
-            if ($pdoInstance == null) {
-                throw new Exception("No se ha podido conectar a la base de datos");
-            }
-        } catch (Exception $e) {
-            throw new Exception("No se ha podido conectar a la base de datos");
-        }
+        $this->table = "pasaje";
+        $this->conexion = $this->getConexion();
     }
-    /**
-     *
-     * Método para abrir la base de datos
-     * @return PDO
-     */
-    public function abrirBD()
-    {
-        $this->db->getPDO();
-    }
-    /**
-     * Método para cerrar la base de datos
-     */
-    public function cierroBD()
-    {
-        $this->db->cierroBD();
-    }
+
     /**
      * Método para verificar si el pasajero ya existe en el vuelo
      * @param int $pasajeroCod Código del pasajero
@@ -115,10 +94,10 @@ class BookingModel
     {
         try {
             // Obtener la conexión PDO
-            $pdo = $this->db->getPDO();
 
+            $sql = "SELECT COUNT(*) FROM $this->table WHERE pasajerocod = ? AND identificador = ?";
             // Realizar la consulta SQL para verificar la existencia del pasajero en el vuelo
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM pasaje WHERE pasajerocod = ? AND identificador = ?");
+            $stmt = $this->conexion->prepare($sql);
             $stmt->execute([$pasajeroCod, $identificador]);
             $count = $stmt->fetchColumn();
 
@@ -139,14 +118,12 @@ class BookingModel
     public function checkOccupiedSeat($numAsiento, $identificador)
     {
         try {
-            // Obtener la conexión PDO
-            $pdo = $this->db->getPDO();
 
+            $sql = "SELECT COUNT(*) FROM $this->table WHERE numasiento = ? AND identificador = ?";
             // Realizar la consulta SQL para verificar si el asiento está ocupado en el vuelo
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM pasaje WHERE numasiento = ? AND identificador = ?");
+            $stmt = $this->conexion->prepare($sql);
             $stmt->execute([$numAsiento, $identificador]);
             $count = $stmt->fetchColumn();
-
             // Devolver true si está ocupado, false si no está ocupado
             return ($count > 0);
         } catch (PDOException $e) {
@@ -162,8 +139,7 @@ class BookingModel
     public function insertBooking($pasaje)
     {
         try {
-            // Obtener la conexión PDO
-            $pdo = $this->db->getPDO();
+
 
             // Realizar las comprobaciones antes de insertar
             $pasajeroExistente = $this->checkExistingPassenger($pasaje->getPasajerocod(), $pasaje->getIdentificador());
@@ -179,8 +155,9 @@ class BookingModel
             }
 
             // Insertar el pasaje
-            $stmt = $pdo->prepare("INSERT INTO pasaje (pasajerocod, identificador, numasiento, clase, pvp) 
-                                   VALUES (?, ?, ?, ?, ?)");
+
+            $sql = "INSERT INTO pasaje (pasajerocod, identificador, numasiento, clase, pvp) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $this->conexion->prepare($sql);
             $stmt->execute([$pasaje->getPasajerocod(), $pasaje->getIdentificador(), $pasaje->getNumasiento(), $pasaje->getClase(), $pasaje->getPvp()]);
 
             // Devolver mensaje de éxito
@@ -205,10 +182,13 @@ class BookingModel
             if ($idpasaje !== null) {
                 $sql .= " WHERE idpasaje = :idpasaje";
             }
-            $statement = $this->db->getPDO()->prepare($sql);
+            $sql .= " ORDER BY idpasaje";
             //ojo esto es necesario para que funcione el if de arriba
             if ($idpasaje !== null) {
+                $statement = $this->conexion->prepare($sql);
                 $statement->bindParam(':idpasaje', $idpasaje, PDO::PARAM_INT);
+            } else {
+                $statement = $this->conexion->prepare($sql);
             }
             $statement->execute();
             $pasajes = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -239,11 +219,10 @@ class BookingModel
     public function deleteBooking($idpasaje)
     {
         try {
-            // Obtener la conexión PDO
-            $pdo = $this->db->getPDO();
+            $sql = "SELECT * FROM pasaje WHERE idpasaje = ?";
 
             // Realizar la consulta SQL para eliminar el pasaje
-            $stmt = $pdo->prepare("DELETE FROM pasaje WHERE idpasaje = ?");
+            $stmt = $this->conexion->prepare($sql);
             $stmt->execute([$idpasaje]);
             //verifico si se elimino algun registro
             if ($stmt->rowCount() == 0) {
@@ -251,6 +230,53 @@ class BookingModel
             }
             // Devolver mensaje de éxito
             return "REGISTRO ELIMINADO CORRECTAMENTE";
+        } catch (PDOException $e) {
+            // Si hay un error SQL, devolver el mensaje correspondiente
+            return "Error SQL: " . $e->getMessage();
+        }
+    }
+    /**
+     * Método para actualizar un pasaje
+     * @param array $data Array asociativo con los datos del pasaje a actualizar
+     * @return string Mensaje indicando el resultado de la operación
+     */
+
+    public function updateBooking($pasaje)
+    {
+        try {
+            // Realizar las comprobaciones antes de insertar
+            $pasajeroExistente = $this->checkExistingPassenger($pasaje['pasajerocod'], $pasaje['identificador']);
+            $asientoOcupado = $this->checkOccupiedSeat($pasaje['numasiento'], $pasaje['identificador']);
+            // Si el pasajero o el asiento ya existen, devolver mensaje de error específico
+            if ($pasajeroExistente && $asientoOcupado) {
+                return "El pasajero '" . $pasaje['pasajerocod'] . "' ya tiene otro asiento en el vuelo '" . $pasaje['identificador'] . "' y el asiento '" . $pasaje['numasiento'] . "' ya está ocupado.";
+            } elseif ($pasajeroExistente) {
+                return "ERROR AL ACTUALIZAR. EL PASAJERO '" . $pasaje['pasajerocod'] . "' YA TIENE OTRO ASIENTO EN EL VUELO '" . $pasaje['identificador'] . "'";
+            } elseif ($asientoOcupado) {
+                return "ERROR AL ACTUALIZAR. EL Nº DE ASIENTO '" . $pasaje['numasiento'] . "' YA ESTÁ OCUPADO EN EL VUELO '" . $pasaje['identificador'] . "'";
+            }
+
+            // Realizar la consulta SQL para actualizar el pasaje
+            $sql = "UPDATE pasaje SET pasajerocod = ?, identificador = ?, numasiento = ?, clase = ?, pvp = ? WHERE idpasaje = ?";
+            $stmt = $this->conexion->prepare($sql);
+
+            // Extraer los parámetros del array asociativo y bindearlos directamente
+            $stmt->bindParam(1, $pasaje['pasajerocod']);
+            $stmt->bindParam(2, $pasaje['identificador']);
+            $stmt->bindParam(3, $pasaje['numasiento']);
+            $stmt->bindParam(4, $pasaje['clase']);
+            $stmt->bindParam(5, $pasaje['pvp']);
+            $stmt->bindParam(6, $pasaje['idpasaje']);
+
+            // Ejecutar la consulta
+            $num = $stmt->execute();
+
+            // Verificar si se actualizó algún registro
+            if ($stmt->rowCount() == 0) {
+                return "NO ACTUALIZADO, SIN CAMBIOS O NO EXISTE EL PASAJE " . $pasaje['idpasaje'];
+            } else {
+                return "REGISTRO ACTUALIZADO: " . $pasaje['idpasaje'];
+            }
         } catch (PDOException $e) {
             // Si hay un error SQL, devolver el mensaje correspondiente
             return "Error SQL: " . $e->getMessage();

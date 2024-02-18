@@ -97,6 +97,7 @@ class FormView
             //var_dump($_SESSION['message-delete']);
             if (isset($_SESSION['message-delete']) && $_SESSION['message-delete'] != "") {
                 echo "<div class='alert alert-light' role='alert'>" . $_SESSION['message-delete'] . "</div>";
+                unset($_SESSION['message-delete']);
             }
             ?>
 
@@ -142,6 +143,7 @@ class FormView
                 <?php
                 if (isset($_SESSION['message-update']) && $_SESSION['message-update'] != "") {
                     echo "<div class='alert alert-light' role='alert'>" . $_SESSION['message-update'] . "</div>";
+                    unset($_SESSION['message-update']);
                 }
                 ?>
                 <form class="form" action="index.php?controller=Booking&action=UpdateFactBooking" method="post">
@@ -174,7 +176,66 @@ class FormView
                 </form>
                 <a href="index.php?controller=Booking&action=ShowBooking" class="btn btn-primary">Back</a>
             </div>
+        <?php
+
+    }
+
+    /**
+     * Metodo que muestra el formulario para MODIFICAR UN VUELO
+     *  @param array $vuelo
+     */
+    public function FormEditFlight($vuelo)
+    {
+        ?>
+            <h5 class="animate-character mt-2">Edit Flight</h5>
+            <div class="form-container form">
+                <form class="form" action="index.php?controller=Flight&action=UpdateFlight" method="post">
+                    <input type="hidden" name="idvuelo" value="<?php echo $vuelo[0]['idvuelo'] ?>">
+                    <div class="form-group">
+                        <label for="identificador">Flight Code</label>
+                        <input type="text" required name="identificador" class="form-control" id="identificador" placeholder="<?php echo $vuelo[0]['identificador'] ?>" value="<?php echo $vuelo[0]['identificador'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="aeropuertoorigen">Source Airport</label>
+                        <input type="text" required name="aeropuertoorigen" class="form-control" id="aeropuertoorigen" placeholder="<?php echo $vuelo[0]['aeropuertoorigen'] ?>" value="<?php echo $vuelo[0]['aeropuertoorigen'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreorigen">Departure Airport</label>
+                        <input type="text" required name="nombreorigen" class="form-control" id="nombreorigen" placeholder="<?php echo $vuelo[0]['nombreorigen'] ?>" value="<?php echo $vuelo[0]['nombreorigen'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="paisorigen">Departure Country</label>
+                        <input type="text" required name="paisorigen" class="form-control" id="paisorigen" placeholder="<?php echo $vuelo[0]['paisorigen'] ?>" value="<?php echo $vuelo[0]['paisorigen'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="aeropuertodestino">Destination Airport</label>
+                        <input type="text" required name="aeropuertodestino" class="form-control" id="aeropuertodestino" placeholder="<?php echo $vuelo[0]['aeropuertodestino'] ?>" value="<?php echo $vuelo[0]['aeropuertodestino'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombredestino">Arrival Airport</label>
+                        <input type="text" required name="nombredestino" class="form-control" id="nombredestino" placeholder="<?php echo $vuelo[0]['nombredestino'] ?>" value="<?php echo $vuelo[0]['nombredestino'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="paisdestino">Arrival Country</label>
+                        <input type="text" required name="paisdestino" class="form-control" id="paisdestino" placeholder="<?php echo $vuelo[0]['paisdestino'] ?>" value="<?php echo $vuelo[0]['paisdestino'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipovuelo">Flight Type</label>
+                        <select name="tipovuelo" class="form-select" id="tipovuelo">
+                            <option value="ida">One Way</option>
+                            <option value="ida-vuelta">Round Trip</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="numpasajeros">Number of Passengers</label>
+                        <input type="number" required name="numpasajeros" class="form-control" id="numpasajeros" placeholder="<?php echo $vuelo[0]['numpasajeros'] ?>" value="<?php echo $vuelo[0]['numpasajeros'] ?>">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">UPDATE</button>
+                </form>
+                <a href="index.php?controller=Flight&action=initFlight" class="btn btn-primary">Back</a>
+            </div>
     <?php
+
 
     }
 }
