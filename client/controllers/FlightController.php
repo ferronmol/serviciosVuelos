@@ -107,4 +107,11 @@ class FlightController
         //le pido a la vista que me muestre el formulario con la info del vuelo
         $this->formView->formEditFlight($res);
     }
+    /**
+     * Método para actualizar un vuelo
+     * 
+     */
+    public function updateFlight()
+    {
+    }
 }
