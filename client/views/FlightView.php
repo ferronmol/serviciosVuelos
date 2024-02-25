@@ -55,7 +55,7 @@ class FlightView
                 <a href="index.php?controller=Flight&action=AllFlights" class="btn-flight">All Flights</a>
                 <a href="index.php?controller=Flight&action=FlightId" class="btn-flight">Flight number</a>
                 <a href="index.php?controller=Booking&action=Bookings" class="btn-flight">Bookings</a>
-                <a href="index.php?controller=Flight&action=mostrarVuelos" class="btn-flight">I want to fly</a>
+                <a href="index.php?controller=Booking&action=InsertBooking" class="btn-flight">I want to fly</a>
             </div>
         </div>
     <?php

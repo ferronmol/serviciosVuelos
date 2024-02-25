@@ -8,6 +8,8 @@ class BookingController
     private $flightView; //objeto de la clase Login_formview
     private $bookingView; //objeto de la clase InfoView
     private $bookingService; //objeto de la clase PasajesService
+    private $passenguerService; //objeto de la clase PasajeroService
+    private $flightService; //objeto de la clase VuelosService
     private $formView; //objeto de la clase FormView
 
     /**
@@ -20,6 +22,8 @@ class BookingController
         $this->bookingView = new BookingView();  //crea un objeto de la clase InfoView
         $this->bookingService = new BookingService();  //crea un objeto de la clase PasajesServices
         $this->formView = new FormView();  //crea un objeto de la clase FormView
+        $this->passenguerService = new PassenguerService();  //crea un objeto de la clase PasajeroService
+        $this->flightService = new FlightService();  //crea un objeto de la clase VuelosService
     }
 
     /**
@@ -81,15 +85,17 @@ class BookingController
     public function DeleteBooking($idpasaje = null)
     {
         //recogemos el id del pasaje si existe
-        if ($idpasaje != null) {
-            $idpasaje = $_GET['idpasaje'];
-        }
-        $idpasaje = $_GET['idpasaje'];
+        $idpasaje = isset($_GET['idpasaje']) ? $_GET['idpasaje'] : null;
+        var_dump($idpasaje);
+
+
         //pedimos al servicio que nos de todos los datos del pasaje que le pasamos
         $res = $this->bookingService->GetBookings($idpasaje);
         //convertimos el json de respuesta en un array
         $bookingId = json_decode($res, true);
         //lo mandamos al formulario de confirmacion
+        //var_dump($bookingId);
+
         $this->formView->DeleteBooking($bookingId);
     }
     /**
@@ -101,8 +107,11 @@ class BookingController
     public function DeleteFactBooking()
     {
         //recogemos el id del pasaje por post
-        $idpasaje = $_POST['idpasaje'];
-        //var_dump($idpasaje);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $idpasaje = $_POST['idpasaje'];
+        }
+        var_dump($idpasaje);
         //pedimos al servicio que borre el pasaje y nos de un mensaje de confirmacion
         $res = $this->bookingService->DeleteBooking($idpasaje);
         // Verificar si la eliminación fue exitosa antes de configurar el mensaje en $_SESSION
@@ -192,5 +201,48 @@ class BookingController
         }
 
         $this->UpdateBooking($booking['idpasaje']);
+    }
+
+
+    /**
+     * Metoo para insertar un pasaje cargando dos select
+     * 
+     * @return mensaje de confirmación o error
+     */
+
+    public function InsertBooking()
+    {
+        //pedimos al servicio que nos de todos los pasajeros para poder cargar en select los nombres
+
+        $res = $this->passenguerService->GetPassenguer();
+        //convertimos el json de respuesta en un array
+        $passenguer = json_decode($res, true);
+        //pedios al servico los identificadores de los vuelos para cargar en select
+        $res = $this->flightService->request();
+        //convertimos el json de respuesta en un array
+        $flights = json_decode($res, true);
+        //se lo mando al formulario
+        $this->formView->InsertBooking($passenguer, $flights);
+        //recupro los datos del formulario
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
+            // Recoger los datos del formulario de inserción
+            // PONIENDO EL TIPO DE DATO QUE SE ESPERA
+            $pasajerocod = isset($_POST['pasajerocod']) ? (int)$_POST['pasajerocod'] : null;
+            $identificador = $_POST['identificador'];
+            $numasiento = isset($_POST['numasiento']) ? (int)$_POST['numasiento'] : null;
+            $clase = $_POST['clase'];
+            $pvp = isset($_POST['pvp']) ? (float)$_POST['pvp'] : null;
+            // Crear un array asociativo con los datos del pasaje
+            $booking = [
+                'pasajerocod' => $pasajerocod,
+                'identificador' => $identificador,
+                'numasiento' => $numasiento,
+                'clase' => $clase,
+                'pvp' => $pvp
+            ];
+            //var_dump($booking);
+            //se lo mando al servicio para insertar
+            $res = $this->bookingService->InsertBooking($booking);
+        }
     }
 }

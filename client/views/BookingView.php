@@ -12,7 +12,10 @@ class BookingView
 
             <a href="index.php?controller=Booking&action=CreateBooking" class="btn-flight">Create Booking</a>
             <a href="index.php?controller=Booking&action=ShowBooking" class="btn-flight">Info Booking</a>
+            <!-- volver a la pagina principal -->
+
         </div>
+        <a href="index.php?controller=Flight&action=initFlight" class="btn btn-success mb-3 center ">Back</a>
     <?php
 
     }

@@ -2,6 +2,7 @@
 include_once __DIR__ . '/controllers/UserController.php';
 include_once __DIR__ . '/controllers/BookingController.php';
 include_once __DIR__ . '/controllers/FlightController.php';
+include_once __DIR__ . '/services/PassenguerService.php';
 include_once __DIR__ . '/services/FlightService.php';
 include_once __DIR__ . '/services/BookingService.php';
 include_once __DIR__ . '/views/UserView.php';

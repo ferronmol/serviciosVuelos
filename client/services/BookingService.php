@@ -71,6 +71,7 @@ class BookingService
         //para recibir una respuesta
         curl_setopt($conexion, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($conexion);
+        //var_dump($res); //para ver bien el tipo de respuesta.es cadena
         //$res es la respuesta del servidor , en los get no se  convierte a json     
         // Verificar errores
         if ($res === false) {
